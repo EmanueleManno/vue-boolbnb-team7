@@ -1,12 +1,15 @@
-<!--Script-->
-<script></script>
+<script>
+import AppHeader from './components/AppHeader.vue';
+export default {
+  components: { AppHeader },
+}
+</script>
 
-<!--Template-->
 <template>
-  <h2 class="text-danger container">Team 7</h2>
+  <AppHeader />
+  <RouterView />
 </template>
 
-<!--Style-->
 <style lang="scss">
 @use './assets/scss/style.scss';
 </style>
