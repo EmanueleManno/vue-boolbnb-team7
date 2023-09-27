@@ -12,7 +12,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
-library.add(faMagnifyingGlass, faUser, faBars)
+import { faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { faSliders } from '@fortawesome/free-solid-svg-icons'
+library.add(faMagnifyingGlass, faUser, faBars, faGlobe, faSliders)
 
 const app = createApp(App);
 app.use(router);
