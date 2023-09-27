@@ -45,7 +45,7 @@
                     <div class="d-none d-md-flex">
                         <a href="{{ route('apartments.create') }}" class="button-light">Apri un Boolbnb</a>
 
-                        <button class="button-light"><i class="fa-solid fa-globe"></i></button>
+                        <button class="button-light"><font-awesome-icon icon="globe" /></button>
                     </div>
 
                     <!-- Dropdown -->
