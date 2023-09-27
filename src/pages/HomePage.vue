@@ -1,5 +1,11 @@
-<script></script>
+<script>
+import AppNavbar from '../components/AppNavbar.vue';
+export default {
+    components: { AppNavbar },
+}
+</script>
 
 <template>
+    <AppNavbar />
     <h1>homepage</h1>
 </template>
