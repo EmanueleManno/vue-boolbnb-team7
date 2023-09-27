@@ -74,7 +74,7 @@
     </header>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use '../assets/scss/vars' as *;
 
 
