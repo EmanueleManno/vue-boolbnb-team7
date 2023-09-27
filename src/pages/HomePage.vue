@@ -1,5 +1,12 @@
-<script></script>
+<script>
+import AppNavbar from '../components/AppNavbar.vue';
+import ApartmentsList from '../components/ApartmentsList.vue';
+export default {
+    components: { AppNavbar, ApartmentsList },
+}
+</script>
 
 <template>
-    <h1>homepage</h1>
+    <AppNavbar />
+    <ApartmentsList />
 </template>

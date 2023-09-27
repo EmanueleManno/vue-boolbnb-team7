@@ -7,7 +7,7 @@
                 <!-- Left side -->
                 <!--! Ricerca attiva solo su schermata home -->
                 <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
-                    <a class="logo" href="{{ route('guest.home') }}">
+                    <a class="logo" href="http://localhost:5174/">
                         <img src="src/assets/img/logo.png" alt="logo">
                         <h1 class="d-none d-xl-inline-block">boolbnb</h1>
                     </a>
@@ -43,7 +43,7 @@
                 <!-- Right side -->
                 <div class="col-1 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
                     <div class="d-none d-md-flex">
-                        <a href="{{ route('apartments.create') }}" class="button-light">Apri un Boolbnb</a>
+                        <a href="http://127.0.0.1:8000/apartments/create" class="button-light">Apri un Boolbnb</a>
 
                         <button class="button-light"><font-awesome-icon icon="globe" /></button>
                     </div>
