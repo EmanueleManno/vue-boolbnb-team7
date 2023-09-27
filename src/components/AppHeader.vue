@@ -28,7 +28,7 @@
 
                         <button class="small-label">
                             <div>Aggiungi ospiti</div>
-                            <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                            <div class="icon"><font-awesome-icon icon="magnifying-glass" /></div>
                         </button>
                     </div>
                 </div>
@@ -51,21 +51,21 @@
                     <!-- Dropdown -->
                     <div class="login-menu dropdown">
                         <button class="dropdown-toggle d-none d-md-flex align-items-center" data-bs-toggle="dropdown">
-                            <i class="fa-solid fa-bars"></i>
+                            <font-awesome-icon icon="bars" />
                             <div class="user ms-2">
-                                <i class="fa-solid fa-user"></i>
+                                <font-awesome-icon icon="user" />
                             </div>
                         </button>
 
                         <button class="dropdown-toggle d-flex d-md-none align-items-center" data-bs-toggle="dropdown">
                             <div class="user">
-                                <i class="fa-solid fa-user"></i>
+                                <font-awesome-icon icon="user" />
                             </div>
                         </button>
 
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('login') }}"><b>Accedi</b></a></li>
-                            <li><a class="dropdown-item" href="{{ route('register') }}">Registrati</a></li>
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/login"><b>Accedi</b></a></li>
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">Registrati</a></li>
                         </ul>
                     </div>
                 </div>
@@ -76,6 +76,7 @@
 
 <style lang="scss">
 @use '../assets/scss/vars' as *;
+
 
 //__________________ HEADER
 header {
@@ -90,6 +91,10 @@ header {
     div[class*="col"] {
         padding: 0;
         height: 48px
+    }
+
+    .dropdown-toggle:after {
+        display: none;
     }
 }
 
@@ -160,10 +165,6 @@ header {
     @include flex;
     color: white;
     background-color: black;
-}
-
-.dropdown-toggle:after {
-    display: none;
 }
 
 ul.dropdown-menu.show {
