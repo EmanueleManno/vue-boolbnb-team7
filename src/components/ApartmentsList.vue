@@ -23,8 +23,9 @@ export default {
                         <div class="card-img">
                             <img :src="apartment.image" :alt="apartment.title">
                         </div>
-                        <div class="card-body">
+                        <div class="card-content">
                             <h6 class="card-title">{{ apartment.title }}</h6>
+                            <div><b>{{ apartment.price }}€</b> a notte</div>
                         </div>
                     </a>
                 </div>
@@ -56,7 +57,12 @@ export default {
     }
 }
 
+.card-content {
+    padding: 10px 0;
+}
+
 // Media Query
+// Square images
 @media (min-width: 576px) {
     .card-img {
         max-height: 514px;
