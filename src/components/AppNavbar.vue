@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-    <nav class="bool-nav sticky-top">
+    <nav class="bool-nav">
         <div class="container">
             <div class="row">
                 <ul class="col col-11 col-md-10 col-lg-11">
@@ -44,7 +44,6 @@ export default {
 //__________________ NAVBAR
 
 .bool-nav {
-    margin-top: 20px;
     padding: 0 12px;
     background-color: white;
 
