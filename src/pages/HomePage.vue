@@ -7,6 +7,8 @@ export default {
 </script>
 
 <template>
-    <AppNavbar />
-    <ApartmentsList />
+    <main>
+        <AppNavbar />
+        <ApartmentsList />
+    </main>
 </template>
