@@ -1,16 +1,18 @@
 <script>
 import axios from 'axios';
-const endpoint = 'http://localhost:8000/api/user'
+const user_endpoint = 'http://localhost:8000/api/user';
 export default {
     data: () => ({ user: '' }),
     methods: {
-        fetchCategories() {
-            axios.get(endpoint).then(res => { this.user = res.data })
+        // Get user deatils
+        fetchUser() {
+            axios.get(user_endpoint).then(res => { this.user = res.data })
         },
+        // Get First letter of a string
         getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
     },
     created() {
-        this.fetchCategories();
+        this.fetchUser();
     }
 }
 </script>
@@ -20,7 +22,6 @@ export default {
         <div class="container">
             <div class="row px-2 px-sm-0">
                 <!-- Left side -->
-                <!--! Ricerca attiva solo su schermata home -->
                 <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
                     <a class="logo" href="http://localhost:5174/">
                         <img src="src/assets/img/logo.png" alt="logo">
@@ -28,28 +29,16 @@ export default {
                     </a>
                 </div>
 
-                <!-- Center -->
-                <div class="col-11 col-md-6 col-xl-4">
-                    <div class="filter-menu">
-                        <button class="small-label">
-                            <div>Ovunque</div>
-                        </button>
-                        <span class="separator"></span>
-
-                        <button class="small-label">
-                            <div>Qualunque settimana</div>
-                        </button>
-                        <span class="separator"></span>
-
-                        <button class="small-label">
-                            <div>Aggiungi ospiti</div>
-                            <div class="icon"><font-awesome-icon icon="magnifying-glass" /></div>
-                        </button>
+                <!--!! Search bar -->
+                <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center">
+                    <div class="search-bar">
+                        <input type="text" class="form-control" placeholder="Inserisci un luogo">
+                        <span class="input-icon"><font-awesome-icon icon="magnifying-glass" /></span>
                     </div>
                 </div>
 
                 <!-- Right side -->
-                <div class="col-1 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
+                <div class="col-2 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
                     <div class="d-none d-md-flex">
                         <a href="http://127.0.0.1:8000/admin/apartments/create" class="button-light">Apri un Boolbnb</a>
 
@@ -124,6 +113,7 @@ header {
     }
 }
 
+// _____________ Left side
 .logo {
     @include flex;
 
@@ -138,52 +128,45 @@ header {
     }
 }
 
-.filter-menu {
+//_____________ Searchbar
+.search-bar {
     @include flex;
-    padding: 0 6px 0 10px;
+    flex-grow: 1;
+    padding: 0;
     border: 1px solid $light-grey;
     border-radius: 40px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
     transition: box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1);
+    overflow: hidden;
 
     &:hover {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
     }
 }
 
-.login-menu {
-    @include flex;
-}
+// Input 
+.form-control {
+    border: none;
+    padding: 0 12px;
 
-.small-label {
-    @include flex;
-    height: 48px;
-    flex-grow: 1;
-    font-weight: 500;
-    overflow: hidden;
-
-    &:last-child {
-        @include font(300, $color: grey);
-    }
-
-    div {
-        padding: 0 16px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    &:focus {
+        border: none;
+        box-shadow: none;
     }
 }
 
-.separator {
-    border-right: 1px solid $light-grey;
-    height: 24px;
-}
-
-.icon {
+// Search icon
+.input-icon {
     @include flex;
-    @include circle(32px);
+    border-radius: 0 50% 50% 0;
+    padding: 12px;
     color: white;
     background-color: $brand-color;
+}
+
+//_____________ Right side
+.login-menu {
+    @include flex;
 }
 
 .user {
