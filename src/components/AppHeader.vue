@@ -2,7 +2,12 @@
 import axios from 'axios';
 const user_endpoint = 'http://localhost:8000/api/user';
 export default {
-    data: () => ({ user: '' }),
+    data() {
+        return {
+            user: '',
+            searchedText: '',
+        }
+    },
     methods: {
         // Get user deatils
         fetchUser() {
@@ -31,10 +36,11 @@ export default {
 
                 <!--!! Search bar -->
                 <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center">
-                    <div class="search-bar">
-                        <input type="text" class="form-control" placeholder="Inserisci un luogo">
-                        <span class="input-icon"><font-awesome-icon icon="magnifying-glass" /></span>
-                    </div>
+                    <form class="search-bar">
+                        <input v-model.trim="searchedText" type="text" class="form-control"
+                            placeholder="Inserisci un luogo">
+                        <button class="input-icon"><font-awesome-icon icon="magnifying-glass" /></button>
+                    </form>
                 </div>
 
                 <!-- Right side -->
