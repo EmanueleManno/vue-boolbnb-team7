@@ -48,13 +48,6 @@ export default {
                     </div>
                 </div>
 
-                <!-- <div class="col-11 col-md-7 col-xl-8 d-flex justify-content-start">
-                    <a class="logo" href="{{ route('guest.home') }}">
-                        <img src="{{ asset('img/logo.png') }}" alt="logo">
-                        <h1>boolbnb</h1>
-                    </a>
-                </div> -->
-
                 <!-- Right side -->
                 <div class="col-1 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
                     <div class="d-none d-md-flex">
@@ -67,12 +60,12 @@ export default {
                     <div class="login-menu dropdown">
                         <button class="dropdown-toggle d-none d-md-flex align-items-center" data-bs-toggle="dropdown">
                             <font-awesome-icon icon="bars" />
-                            <div v-if="!user" class="user ms-2">
-                                <font-awesome-icon icon="user" />
+                            <div v-if="user.length" class="user ms-2">
+                                <span id="admin-name">{{ getFirstLetter(user[0]['name']) }}</span>
                             </div>
 
                             <div v-else class="user ms-2">
-                                <span id="admin-name">{{ getFirstLetter(user[0]['name']) }}</span>
+                                <font-awesome-icon icon="user" />
                             </div>
                         </button>
 
@@ -99,13 +92,6 @@ export default {
                                     Boolbnb</a>
                             </li>
                             <li><a class="dropdown-item" href="http://127.0.0.1:8000/profile">Account</a></li>
-                            <!-- <hr>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/logout"
-                                    onclick="event.preventDefault();  document.getElementById('logout-form').submit();">Esci</a>
-                            </li>
-                            <form id="logout-form" action="http://127.0.0.1:8000/logout" method="POST" class="d-none">
-                                @csrf
-                            </form> -->
                         </ul>
                     </div>
                 </div>
