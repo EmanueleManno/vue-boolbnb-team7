@@ -1,4 +1,19 @@
-<script></script>
+<script>
+import axios from 'axios';
+const endpoint = 'http://localhost:8000/api/user'
+export default {
+    data: () => ({ user: '' }),
+    methods: {
+        fetchCategories() {
+            axios.get(endpoint).then(res => { this.user = res.data })
+        },
+        getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
+    },
+    created() {
+        this.fetchCategories();
+    }
+}
+</script>
 
 <template>
     <header class="sticky-top">
@@ -52,8 +67,12 @@
                     <div class="login-menu dropdown">
                         <button class="dropdown-toggle d-none d-md-flex align-items-center" data-bs-toggle="dropdown">
                             <font-awesome-icon icon="bars" />
-                            <div class="user ms-2">
+                            <div v-if="!user" class="user ms-2">
                                 <font-awesome-icon icon="user" />
+                            </div>
+
+                            <div v-else class="user ms-2">
+                                <span id="admin-name">{{ getFirstLetter(user[0]['name']) }}</span>
                             </div>
                         </button>
 
@@ -63,9 +82,30 @@
                             </div>
                         </button>
 
-                        <ul class="dropdown-menu">
+                        <ul v-if="!user" class="dropdown-menu">
                             <li><a class="dropdown-item" href="http://127.0.0.1:8000/login"><b>Accedi</b></a></li>
                             <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">Registrati</a></li>
+                        </ul>
+
+                        <ul v-else class="dropdown-menu">
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments">I miei
+                                    Boolbnb</a>
+                            </li>
+                            <li><a class="dropdown-item " href="http://127.0.0.1:8000/admin">Il mio Profilo</a></li>
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/login">Messaggi</a></li>
+                            <li><a class="dropdown-item disabled" href="#">Notifiche</a></li>
+                            <hr>
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments/create">Apri un
+                                    Boolbnb</a>
+                            </li>
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/profile">Account</a></li>
+                            <!-- <hr>
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/logout"
+                                    onclick="event.preventDefault();  document.getElementById('logout-form').submit();">Esci</a>
+                            </li>
+                            <form id="logout-form" action="http://127.0.0.1:8000/logout" method="POST" class="d-none">
+                                @csrf
+                            </form> -->
                         </ul>
                     </div>
                 </div>
