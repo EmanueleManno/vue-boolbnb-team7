@@ -58,7 +58,7 @@ export default {
                 <!-- Right side -->
                 <div class="col-1 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
                     <div class="d-none d-md-flex">
-                        <a href="http://127.0.0.1:8000/apartments/create" class="button-light">Apri un Boolbnb</a>
+                        <a href="http://127.0.0.1:8000/admin/apartments/create" class="button-light">Apri un Boolbnb</a>
 
                         <button class="button-light"><font-awesome-icon icon="globe" /></button>
                     </div>
