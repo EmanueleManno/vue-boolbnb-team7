@@ -70,12 +70,7 @@ export default {
                             </div>
                         </button>
 
-                        <ul v-if="!user" class="dropdown-menu">
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/login"><b>Accedi</b></a></li>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">Registrati</a></li>
-                        </ul>
-
-                        <ul v-else class="dropdown-menu">
+                        <ul v-if="user.length" class="dropdown-menu">
                             <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments">I miei
                                     Boolbnb</a>
                             </li>
@@ -87,6 +82,11 @@ export default {
                                     Boolbnb</a>
                             </li>
                             <li><a class="dropdown-item" href="http://127.0.0.1:8000/profile">Account</a></li>
+                        </ul>
+
+                        <ul v-else class="dropdown-menu">
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/login"><b>Accedi</b></a></li>
+                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">Registrati</a></li>
                         </ul>
                     </div>
                 </div>
