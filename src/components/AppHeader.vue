@@ -1,7 +1,7 @@
 <script>
 import axios from 'axios';
 import apiClient from '../js/api';
-import {store} from '../js/store.js';
+import { store } from '../js/store.js';
 const user_endpoint = 'http://localhost:8000/api/user';
 
 
@@ -24,7 +24,7 @@ export default {
         },
         // Get First letter of a string
         getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
-        
+
         searchLocation() {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(this.findLocation, 500);
@@ -32,20 +32,20 @@ export default {
         },
 
         // Find the position
-        findLocation(){
+        findLocation() {
 
-            if(this.searchedText !== ''){
+            if (this.searchedText !== '') {
 
                 this.store.show = true;
                 apiClient.get(`${encodeURIComponent(this.searchedText)}.json?limit=5`)
-                .then(response => {
-                    
-                    this.locations = response.data.results;
-                    
-                })
-                .catch(error => {
-                    console.error('Errore durante la ricerca del luogo:', error);
-                });
+                    .then(response => {
+
+                        this.locations = response.data.results;
+
+                    })
+                    .catch(error => {
+                        console.error('Errore durante la ricerca del luogo:', error);
+                    });
 
             } else {
                 this.locations = [];
@@ -56,7 +56,7 @@ export default {
         },
 
         // Get latitude, longitude and value
-        getInfo(value, lat, lon){
+        getInfo(value, lat, lon) {
             this.searchedText = value
 
             this.store.lat = lat
@@ -86,16 +86,19 @@ export default {
 
                 <!--!! Search bar -->
                 <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
-                    <div class="search-bar">
-                        <input v-model.trim="searchedText" type="text" class="form-control"
-                            placeholder="Inserisci un luogo" @keyup="searchLocation">
-                        <button class="input-icon"><font-awesome-icon icon="magnifying-glass" /></button>
-                    </div>
+                    <form @submit.prevent="$router.push('search')" class="search-bar">
+                        <input v-model.trim="searchedText" type="text" class="form-control" placeholder="Inserisci un luogo"
+                            @keyup="searchLocation">
+                        <button type="submit" class="input-icon">
+                            <font-awesome-icon icon="magnifying-glass" />
+                        </button>
+                    </form>
                     <!-- Modal -->
                     <div class="filter-modal" :class="{ 'hide': !store.show }">
                         <ul>
-                            <li class="searched-result" v-for="location in this.locations" @click="getInfo((`${location.address.countrySecondarySubdivision} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon))">
-                                {{ location.address.freeformAddress }} 
+                            <li class="searched-result" v-for="location in this.locations"
+                                @click="getInfo((`${location.address.countrySecondarySubdivision} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon))">
+                                {{ location.address.freeformAddress }}
                             </li>
                         </ul>
                     </div>
@@ -151,8 +154,6 @@ export default {
             </div>
         </div>
     </header>
-    
-
 </template>
 
 <style lang="scss" scoped>
@@ -216,15 +217,15 @@ header {
     position: relative;
 
     .filter-modal {
-    width: 100%;
-    height: 220px;
-    background-color: white;
-    border-radius: 10px;
-    position: absolute;
-    bottom: -220px;
-    left: 0;
+        width: 100%;
+        height: 220px;
+        background-color: white;
+        border-radius: 10px;
+        position: absolute;
+        bottom: -220px;
+        left: 0;
 
-}
+    }
 
     .searched-result {
         padding-top: 5px;
@@ -240,12 +241,12 @@ header {
     }
 
 
-    
+
 }
 
 .hide {
-        display: none;
-    }
+    display: none;
+}
 
 
 
