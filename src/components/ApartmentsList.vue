@@ -21,7 +21,7 @@ export default {
                 <div class="card">
                     <a href="#">
                         <div class="card-img">
-                            <img :src="apartment.image" :alt="apartment.title">
+                            <img :src="`http://127.0.0.1:8000/storage/${apartment.image}`" :alt="apartment.title">
                         </div>
                         <div class="card-content">
                             <h6 class="card-title">{{ apartment.title }}</h6>
