@@ -1,11 +1,20 @@
 <script>
 import axios from 'axios';
+import apiClient from '../js/api'
 const user_endpoint = 'http://localhost:8000/api/user';
+
+
 export default {
+
+
     data() {
         return {
             user: '',
             searchedText: '',
+            locations: [],
+            timeout: null,
+            show: false,
+            
         }
     },
     methods: {
@@ -15,11 +24,45 @@ export default {
         },
         // Get First letter of a string
         getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
+        
+        searchLocation() {
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(this.findLocation, 500);
+
+        },
+
+        findLocation(){
+
+            if(this.searchedText !== ''){
+
+                this.show = true;
+                apiClient.get(`${encodeURIComponent(this.searchedText)}.json?limit=5`)
+                .then(response => {
+                    
+                    this.locations = response.data.results;
+                    
+                })
+                .catch(error => {
+                    console.error('Errore durante la ricerca del luogo:', error);
+                });
+
+            } else {
+                this.locations = [];
+                this.show = false;
+            }
+
+        },
+
+        setText(value){
+            this.searchedText = value
+        }
     },
+
     created() {
         this.fetchUser();
-    }
+    },
 }
+
 </script>
 
 <template>
@@ -35,12 +78,20 @@ export default {
                 </div>
 
                 <!--!! Search bar -->
-                <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center">
+                <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
                     <form class="search-bar">
                         <input v-model.trim="searchedText" type="text" class="form-control"
-                            placeholder="Inserisci un luogo">
+                            placeholder="Inserisci un luogo" @keyup="searchLocation">
                         <button class="input-icon"><font-awesome-icon icon="magnifying-glass" /></button>
                     </form>
+                    <!-- Modal -->
+                    <div class="filter-modal" :class="{ 'hide': !this.show }">
+                        <ul>
+                            <li class="searched-result" v-for="location in this.locations" @click="setText(`${location.address.countrySecondarySubdivision} ${location.address.countrySubdivision}`)">
+                                {{ location.address.country }} {{ location.address.countrySubdivision }} {{ location.address.countrySecondarySubdivision }}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Right side -->
@@ -93,6 +144,8 @@ export default {
             </div>
         </div>
     </header>
+
+
 </template>
 
 <style lang="scss" scoped>
@@ -149,6 +202,45 @@ header {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
     }
 }
+
+
+// Modal
+.searchbox {
+    position: relative;
+
+    .filter-modal {
+    width: 100%;
+    height: 200px;
+    background-color: white;
+    border-radius: 40px;
+    position: absolute;
+    bottom: -190px;
+    left: 0;
+
+}
+
+    .searched-result {
+        padding-top: 5px;
+        padding-left: 10px;
+        font-size: 20px;
+        padding-bottom: 7px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgb(238, 234, 234);
+            border-radius: 40px;
+        }
+    }
+
+
+    
+}
+
+.hide {
+        display: none;
+    }
+
+
 
 // Input 
 .form-control {
