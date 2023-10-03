@@ -4,18 +4,18 @@ import AppFooter from './components/AppFooter.vue';
 import {store} from './js/store.js';
 export default {
 
-  components: { AppHeader, AppFooter },
+  components: { AppHeader, AppFooter},
 
   data() {
     return {
-      store: store
+      store: store,
+      
     }
   },
   methods: {
 
     hide() {
       this.store.show = false;
-      console.log(this.store)
     }
   }
 } 
@@ -30,6 +30,7 @@ export default {
     
     <!-- Footer -->
     <AppFooter />
+
   </div>
 </template>
 
