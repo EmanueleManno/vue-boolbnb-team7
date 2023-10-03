@@ -1,11 +1,14 @@
 <script>
 import axios from 'axios';
+import AppLoader from './AppLoader.vue';
 const endpoint = 'http://127.0.0.1:8000/api/apartments'
 export default {
-    data: () => ({ apartments: [] }),
+    data: () => ({ apartments: [], isLoading: true }),
+
+    components: { AppLoader },
     methods: {
         fetchApartments() {
-            axios.get(endpoint).then(res => { this.apartments = res.data })
+            axios.get(endpoint).then(res => { this.apartments = res.data; this.isLoading = false; });
         }
     },
     created() {
@@ -32,6 +35,8 @@ export default {
             </div>
         </div>
     </div>
+    <!-- Loader -->
+    <AppLoader :is-loading="isLoading" />
 </template>
 
 <style lang="scss" scoped>
