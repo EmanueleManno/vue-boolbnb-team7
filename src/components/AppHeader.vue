@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios';
-import apiClient from '../js/api'
+import apiClient from '../js/api';
+import {store} from '../js/store.js';
 const user_endpoint = 'http://localhost:8000/api/user';
 
 
@@ -13,8 +14,7 @@ export default {
             searchedText: '',
             locations: [],
             timeout: null,
-            show: false,
-            
+            store: store,
         }
     },
     methods: {
@@ -35,7 +35,7 @@ export default {
 
             if(this.searchedText !== ''){
 
-                this.show = true;
+                this.store.show = true;
                 apiClient.get(`${encodeURIComponent(this.searchedText)}.json?limit=5`)
                 .then(response => {
                     
@@ -48,19 +48,24 @@ export default {
 
             } else {
                 this.locations = [];
-                this.show = false;
+                this.store.show = false;
             }
+
 
         },
 
-        setText(value){
+        setInfo(value, lat, lon){
             this.searchedText = value
+
+            this.store.lat = lat
+            this.store.lon = lon
         }
     },
 
     created() {
         this.fetchUser();
     },
+
 }
 
 </script>
@@ -85,9 +90,9 @@ export default {
                         <button class="input-icon"><font-awesome-icon icon="magnifying-glass" /></button>
                     </form>
                     <!-- Modal -->
-                    <div class="filter-modal" :class="{ 'hide': !this.show }">
+                    <div class="filter-modal" :class="{ 'hide': !store.show }">
                         <ul>
-                            <li class="searched-result" v-for="location in this.locations" @click="setText(`${location.address.countrySecondarySubdivision} ${location.address.countrySubdivision}`)">
+                            <li class="searched-result" v-for="location in this.locations" @click="setInfo((`${location.address.countrySecondarySubdivision} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon))">
                                 {{ location.address.country }} {{ location.address.countrySubdivision }} {{ location.address.countrySecondarySubdivision }}
                             </li>
                         </ul>
