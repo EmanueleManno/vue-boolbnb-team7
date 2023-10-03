@@ -86,16 +86,16 @@ export default {
 
                 <!--!! Search bar -->
                 <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
-                    <form class="search-bar">
+                    <div class="search-bar">
                         <input v-model.trim="searchedText" type="text" class="form-control"
                             placeholder="Inserisci un luogo" @keyup="searchLocation">
                         <button class="input-icon"><font-awesome-icon icon="magnifying-glass" /></button>
-                    </form>
+                    </div>
                     <!-- Modal -->
                     <div class="filter-modal" :class="{ 'hide': !store.show }">
                         <ul>
-                            <li class="searched-result" v-for="location in this.locations" @click="setInfo((`${location.address.countrySecondarySubdivision} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon))">
-                                {{ location.address.country }} {{ location.address.countrySubdivision }} {{ location.address.countrySecondarySubdivision }}
+                            <li class="searched-result" v-for="location in this.locations" @click="getInfo((`${location.address.countrySecondarySubdivision} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon))">
+                                {{ location.address.freeformAddress }} 
                             </li>
                         </ul>
                     </div>
@@ -217,11 +217,11 @@ header {
 
     .filter-modal {
     width: 100%;
-    height: 200px;
+    height: 220px;
     background-color: white;
-    border-radius: 40px;
+    border-radius: 10px;
     position: absolute;
-    bottom: -190px;
+    bottom: -220px;
     left: 0;
 
 }
@@ -235,7 +235,7 @@ header {
 
         &:hover {
             background-color: rgb(238, 234, 234);
-            border-radius: 40px;
+            border-radius: 10px;
         }
     }
 
