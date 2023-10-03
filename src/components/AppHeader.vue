@@ -31,6 +31,7 @@ export default {
 
         },
 
+        // Find the position
         findLocation(){
 
             if(this.searchedText !== ''){
@@ -54,7 +55,8 @@ export default {
 
         },
 
-        setInfo(value, lat, lon){
+        // Get latitude, longitude and value
+        getInfo(value, lat, lon){
             this.searchedText = value
 
             this.store.lat = lat
