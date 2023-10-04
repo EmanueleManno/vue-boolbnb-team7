@@ -11,7 +11,7 @@ export default {
     components: { AppNavbar, ApartmentsList, AppLoader },
     data: () => ({
         apartments: [],
-        isLoading: false,
+        isLoading: true,
     }),
 
     computed: {
@@ -40,7 +40,8 @@ export default {
                 lon: this.lon
             };
 
-            console.log(params);
+            // console.log(params);
+            this.isLoading = true;
 
             axios.get(endpoint, { params })
                 .then(res => {
