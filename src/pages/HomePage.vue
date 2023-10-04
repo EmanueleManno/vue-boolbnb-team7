@@ -1,7 +1,7 @@
 <script>
 import AppNavbar from '../components/AppNavbar.vue';
 import AppLoader from '../components/AppLoader.vue';
-import ApartmentsList from '../components/ApartmentsList.vue';
+import ApartmentsList from '../components/apartment/ApartmentsList.vue';
 
 
 import axios from 'axios';
