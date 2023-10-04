@@ -1,7 +1,7 @@
 <script>
 import AppNavbar from '../components/AppNavbar.vue';
 import AppLoader from '../components/AppLoader.vue';
-import ApartmentsList from '../components/ApartmentsList.vue';
+import ApartmentsList from '../components/apartment/ApartmentsList.vue';
 
 import axios from 'axios';
 const endpoint = 'http://127.0.0.1:8000/api/apartments/filter';

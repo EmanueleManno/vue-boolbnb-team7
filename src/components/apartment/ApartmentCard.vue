@@ -1,38 +1,27 @@
 <script>
-
 export default {
     props: {
-        apartments: Array
+        apartment: Object
     }
-}
+};
 </script>
 
 <template>
-    <div class="container">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
-            <div v-for="apartment in apartments" :key="apartment.id" class="col">
-                <div class="card">
-                    <a href="#">
-                        <div class="card-img">
-                            <img :src="apartment.image" :alt="apartment.title">
-                        </div>
-                        <div class="card-content">
-                            <h6 class="card-title">{{ apartment.title }}</h6>
-                            <div><b>{{ apartment.price }}€</b> a notte</div>
-                        </div>
-                    </a>
-                </div>
+    <div class="card">
+        <a href="#">
+            <div class="card-img">
+                <img :src="apartment.image" :alt="apartment.title">
             </div>
-        </div>
+            <div class="card-content">
+                <h6 class="card-title">{{ apartment.title }}</h6>
+                <div><b>{{ apartment.price }}€</b> a notte</div>
+            </div>
+        </a>
     </div>
 </template>
 
 <style lang="scss" scoped>
-@use '../assets/scss/vars' as *;
-
-.container {
-    margin: 20px auto;
-}
+@use '../../assets/scss/vars' as *;
 
 .card {
     border: none;
