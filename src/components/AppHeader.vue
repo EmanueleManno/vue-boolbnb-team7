@@ -41,11 +41,11 @@ export default {
                 this.store.show = true;
                 apiClient.get(`${encodeURIComponent(this.searchedText)}.json?limit=5`)
                     .then(response => {
-                    this.locations = response.data.results;
-                })
+                        this.locations = response.data.results;
+                    })
                     .catch(error => {
-                    console.error('Errore durante la ricerca del luogo:', error);
-                });
+                        console.error('Errore durante la ricerca del luogo:', error);
+                    });
             }
             else {
                 this.locations = [];
@@ -75,7 +75,7 @@ export default {
             <div class="row px-2 px-sm-0">
                 <!-- Left side -->
                 <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
-                    <RouterLink :to="{name: 'home'}" class="logo" >
+                    <RouterLink :to="{ name: 'home' }" class="logo">
                         <img src="src/assets/img/logo.png" alt="logo">
                         <h1 class="d-none d-xl-inline-block">boolbnb</h1>
                     </RouterLink>
@@ -225,6 +225,7 @@ header {
         bottom: -220px;
         left: 0;
 
+        box-shadow: 0 0 8px 4px rgba($color: #000, $alpha: 0.1);
     }
 
     .searched-result {
