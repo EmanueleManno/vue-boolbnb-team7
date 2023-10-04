@@ -12,6 +12,7 @@ export default {
     data: () => ({
         apartments: [],
         isLoading: true,
+        errorMessage: ''
     }),
 
     watch: {
@@ -26,6 +27,7 @@ export default {
         fetchApartments() {
 
             this.isLoading = true;
+            this.errorMessage = '';
 
             // Get query
             const params = this.$route.query;
@@ -38,6 +40,13 @@ export default {
                 })
                 .catch(err => {
                     console.error(err.response.data);
+                    const status = err.response.status;
+
+                    if (status === 400) {
+                        this.errorMessage = 'Inserisci un indirizzo valido.';
+                    } else {
+                        this.errorMessage = `Errore ${status}`;
+                    }
                 })
                 .then(() => {
                     this.isLoading = false;
@@ -52,9 +61,22 @@ export default {
 
 <template>
     <main>
+        <!-- Navbar -->
         <AppNavbar />
-        <ApartmentsList :apartments="apartments" />
+
+        <!-- Page Cotent -->
+        <div v-if="!isLoading">
+
+            <!-- Error Message -->
+            <div v-if="errorMessage" class="container">
+                <h4 class="text-danger text-center mt-5">{{ errorMessage }}</h4>
+            </div>
+
+            <!-- Apartments -->
+            <ApartmentsList v-else :apartments="apartments" />
+        </div>
     </main>
+
     <!-- Loader -->
     <AppLoader :is-loading="isLoading" />
 </template>

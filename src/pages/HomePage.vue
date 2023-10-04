@@ -25,7 +25,7 @@ export default {
 <template>
     <main>
         <!-- <AppNavbar /> -->
-        <ApartmentsList :apartments="apartments" />
+        <ApartmentsList v-if="!isLoading" :apartments="apartments" />
     </main>
     <!-- Loader -->
     <AppLoader :is-loading="isLoading" />
