@@ -1,43 +1,53 @@
 <script>
-const services = [
-    { id: 1, 'name': 'Wi-Fi', 'icon': 'wifi' },
-    { id: 2, 'name': 'TV', 'icon': 'tv' },
-    { id: 3, 'name': 'Lavatrice', 'icon': 'soap' },
-    { id: 4, 'name': 'Asciugatrice', 'icon': 'temperature-high' },
-    { id: 5, 'name': 'Ferro da stiro', 'icon': 'shirt' },
-    { id: 6, 'name': 'Asciugacapelli', 'icon': 'tornado' },
-    { id: 7, 'name': 'Cucina', 'icon': 'kitchen-set' },
-    { id: 8, 'name': 'Aria Condizionata', 'icon': 'temperature-arrow-down' },
-    { id: 9, 'name': 'Riscaldamento', 'icon': 'temperature-arrow-up' },
-    { id: 10, 'name': 'Posto Macchina', 'icon': 'car' },
-    { id: 11, 'name': 'Piscina', 'icon': 'water-ladder' },
-    { id: 12, 'name': 'Portineria', 'icon': 'bell-concierge' },
-    { id: 13, 'name': 'Sauna', 'icon': 'house-tsunami' },
-    { id: 14, 'name': 'Vista Mare', 'icon': 'water' },
-]
+import axios from 'axios';
+const endpoint = 'http://127.0.0.1:8000/api/services';
+
 export default {
     data: () => ({
-        services,
+        services: [],
         filters: {
             rooms: null,
             beds: null,
-            radius: 20,
+            radiusKm: 20,
             services: [],
         }
     }),
+    computed: {
+        radius() {
+            return parseInt(this.filters.radiusKm) * 1000;
+        }
+    },
     methods: {
+        fetchServices() {
+
+            axios.get(endpoint)
+                .then(res => {
+                    this.services = res.data;
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+
+        },
+
         applyFilters() {
 
             // Create query params
             const query = {
                 lat: this.$route?.query.lat,
                 lon: this.$route?.query.lon,
-                ...this.filters
+                rooms: this.filters.rooms,
+                beds: this.filters.beds,
+                radius: this.radius,
+                services: this.filters.services,
             }
 
             // Apply query
             this.$router.push({ name: 'search', query })
         }
+    },
+    created() {
+        this.fetchServices();
     }
 }
 </script>
@@ -76,8 +86,8 @@ export default {
 
                             <!-- Radius -->
                             <div class="col-12 col-sm-4 mb-3">
-                                <label for="radius" class="form-label fw-bold">Raggio ricerca [km]</label>
-                                <input v-model.trim="filters.radius" type="number" class="form-control" id="radius">
+                                <label for="radiusKm" class="form-label fw-bold">Raggio ricerca [km]</label>
+                                <input v-model.trim="filters.radiusKm" type="number" class="form-control" id="radiusKm">
                             </div>
 
                             <!-- Services -->
