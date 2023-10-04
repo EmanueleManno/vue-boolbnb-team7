@@ -1,5 +1,6 @@
 <script>
 import SearchModal from './search/SearchModal.vue';
+import { store } from '../js/store.js';
 
 import axios from 'axios';
 const endpoint = 'http://localhost:8000/api/categories';
@@ -7,7 +8,7 @@ const endpoint = 'http://localhost:8000/api/categories';
 
 export default {
     components: { SearchModal },
-    data: () => ({ categories: [] }),
+    data: () => ({ categories: [], store:store }),
     methods: {
         fetchCategories() {
             axios.get(endpoint).then(res => { this.categories = res.data })
@@ -15,6 +16,12 @@ export default {
     },
     created() {
         this.fetchCategories();
+    },
+    computed: {
+        filterNumber(){
+
+            return
+        }
     }
 }
 </script>
@@ -34,7 +41,7 @@ export default {
 
                 <!-- Advanced Filters -->
                 <div class="col-2 d-flex align-items-center justify-content-end">
-                    <button class="filter" data-bs-toggle="modal" data-bs-target="#searchModal">
+                    <button class="filter" data-bs-toggle="modal" data-bs-target="#searchModal" :class="{ 'has-filter': store.filters > 0 }">
                         <font-awesome-icon icon="sliders" />
                         <span class="d-none d-md-inline">Filtri</span>
                     </button>
@@ -104,10 +111,15 @@ export default {
         width: 25px;
     }
 
+
     .filter {
         @include flex;
         @include circle(40px);
         border: 1px solid $light-grey;
+    }
+
+    .has-filter {
+        border: 2px solid black;
     }
 
     @media (min-width: 768px) {
