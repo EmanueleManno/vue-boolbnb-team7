@@ -15,6 +15,9 @@ export default {
             locations: [],
             timeout: null,
             store: store,
+            lat: null,
+            lon: null
+
         }
     },
     methods: {
@@ -57,10 +60,10 @@ export default {
 
         // Get latitude, longitude and value
         getInfo(value, lat, lon) {
-            this.searchedText = value
+            this.searchedText = value;
 
-            this.store.lat = lat
-            this.store.lon = lon
+            this.lat = lat;
+            this.lon = lon;
         }
     },
 
@@ -86,14 +89,17 @@ export default {
 
                 <!--!! Search bar -->
                 <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
-                    <form @submit.prevent="$router.push('search')" class="search-bar">
+
+                    <!-- Address Search Form -->
+                    <form @submit.prevent="$router.push({ name: 'search', query: { lat, lon } })" class="search-bar">
                         <input v-model.trim="searchedText" type="text" class="form-control" placeholder="Inserisci un luogo"
                             @keyup="searchLocation">
                         <button type="submit" class="input-icon">
                             <font-awesome-icon icon="magnifying-glass" />
                         </button>
                     </form>
-                    <!-- Modal -->
+
+                    <!-- Address Modal -->
                     <div class="filter-modal" :class="{ 'hide': !store.show }">
                         <ul>
                             <li class="searched-result" v-for="location in this.locations"
