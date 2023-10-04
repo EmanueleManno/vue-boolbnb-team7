@@ -4,5 +4,6 @@ export const store = reactive({
     
     show: false,
     lat: null,
-    lon: null
+    lon: null,
+    filters: 0,
 });

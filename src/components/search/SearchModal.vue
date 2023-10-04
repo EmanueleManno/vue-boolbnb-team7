@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+import { store } from '../../js/store';
 const endpoint = 'http://127.0.0.1:8000/api/services';
 
 export default {
@@ -10,7 +11,9 @@ export default {
             beds: null,
             radiusKm: 20,
             'services[]': [],
-        }
+        },
+        store: store,
+        
     }),
     computed: {
         radius() {
@@ -57,11 +60,40 @@ export default {
             }
 
             // Apply query
-            this.$router.push({ name: 'search', query });
+
+            this.$router.push({ name: 'search', query })
+            this.addFilters();
+        },
+
+        // Check if are any filters in the URL
+        assignFilters() {
+
+            if(this.$route?.query.rooms > 0) {
+                this.filters.rooms = this.$route?.query.rooms;
+            };
+
+            if(this.$route?.query.beds > 0) {
+                this.filters.beds = this.$route?.query.beds;
+            };
+
+        },
+
+        addFilters(){
+            if(this.filters.rooms){
+                this.store.filters += 1;
+            };
+            
+            if(this.filters.beds) {
+                this.store.filters += 1;
+            }
         }
     },
+
     created() {
         this.fetchServices();
+        this.assignFilters();
+        this.addFilters();
+
     }
 }
 </script>
