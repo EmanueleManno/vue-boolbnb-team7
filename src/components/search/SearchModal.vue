@@ -17,7 +17,13 @@ const services = [
 ]
 export default {
     data: () => ({
-        services
+        services,
+        filters: {
+            rooms: null,
+            beds: null,
+            radius: 20,
+            services: [],
+        }
     })
 }
 </script>
@@ -45,27 +51,28 @@ export default {
                             <!-- Rooms -->
                             <div class="col-12 col-sm-4 mb-3">
                                 <label for="rooms" class="form-label fw-bold">Numero di stanze</label>
-                                <input type="number" class="form-control" id="rooms">
+                                <input v-model.trim="filters.rooms" type="number" class="form-control" id="rooms">
                             </div>
 
                             <!-- Beds -->
                             <div class="col-12 col-sm-4 mb-3">
                                 <label for="beds" class="form-label fw-bold">Numero di letti</label>
-                                <input type="number" class="form-control" id="beds">
+                                <input v-model.trim="filters.beds" type="number" class="form-control" id="beds">
                             </div>
 
                             <!-- Radius -->
                             <div class="col-12 col-sm-4 mb-3">
                                 <label for="radius" class="form-label fw-bold">Raggio ricerca [km]</label>
-                                <input type="number" class="form-control" id="radius" value="20">
+                                <input v-model.trim="filters.radius" type="number" class="form-control" id="radius">
                             </div>
 
                             <!-- Services -->
                             <div class="col-12 mb-3">
                                 <p class="fw-bold mb-2">Servizi</p>
                                 <div class="row">
-                                    <div v-for="service in services" :key="service.id" class="col-6 form-check">
-                                        <input class="form-check-input" type="checkbox" :id="service.id">
+                                    <div v-for="(service, idx) in services" :key="service.id" class="col-6 form-check">
+                                        <input v-model.trim="filters.services" class="form-check-input" type="checkbox"
+                                            :id="service.id" :value="service.id">
                                         <label class="form-label d-block" :for="service.id">{{ service.name
                                         }}</label>
                                     </div>
