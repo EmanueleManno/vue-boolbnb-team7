@@ -2,12 +2,11 @@
 import axios from 'axios';
 import apiClient from '../js/api';
 import { store } from '../js/store.js';
+import { RouterLink } from 'vue-router';
 const user_endpoint = 'http://localhost:8000/api/user';
 
 
 export default {
-
-
     data() {
         return {
             user: '',
@@ -17,60 +16,55 @@ export default {
             store: store,
             lat: null,
             lon: null
-
-        }
+        };
     },
     methods: {
         // Get user deatils
         fetchUser() {
-            axios.get(user_endpoint).then(res => { this.user = res.data })
+            axios.get(user_endpoint).then(res => { this.user = res.data; });
         },
         // Get First letter of a string
         getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
-
         searchLocation() {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(this.findLocation, 500);
-
         },
-
+        checkIfBlank() {
+            if (this.searchedText === '') {
+                this.lat = '';
+                this.lon = '';
+            }
+        },
         // Find the position
         findLocation() {
-
             if (this.searchedText !== '') {
-
                 this.store.show = true;
                 apiClient.get(`${encodeURIComponent(this.searchedText)}.json?limit=5`)
                     .then(response => {
-
-                        this.locations = response.data.results;
-
-                    })
+                    this.locations = response.data.results;
+                })
                     .catch(error => {
-                        console.error('Errore durante la ricerca del luogo:', error);
-                    });
-
-            } else {
+                    console.error('Errore durante la ricerca del luogo:', error);
+                });
+            }
+            else {
                 this.locations = [];
                 this.store.show = false;
             }
-
-
         },
-
         // Get latitude, longitude and value
         getInfo(value, lat, lon) {
             this.searchedText = value;
-
             this.lat = lat;
             this.lon = lon;
+            if (this.searchedText !== '') {
+            }
         }
     },
-
     created() {
         this.fetchUser();
     },
-
+    components: { RouterLink }
 }
 
 </script>
@@ -81,10 +75,10 @@ export default {
             <div class="row px-2 px-sm-0">
                 <!-- Left side -->
                 <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
-                    <a class="logo" href="http://localhost:5174/">
+                    <RouterLink :to="{name: 'home'}" class="logo" >
                         <img src="src/assets/img/logo.png" alt="logo">
                         <h1 class="d-none d-xl-inline-block">boolbnb</h1>
-                    </a>
+                    </RouterLink>
                 </div>
 
                 <!--!! Search bar -->
@@ -94,7 +88,7 @@ export default {
                     <form @submit.prevent="$router.push({ name: 'search', query: { lat, lon } })" class="search-bar">
                         <input v-model.trim="searchedText" type="text" class="form-control" placeholder="Inserisci un luogo"
                             @keyup="searchLocation">
-                        <button type="submit" class="input-icon">
+                        <button type="submit" class="input-icon" @click="checkIfBlank">
                             <font-awesome-icon icon="magnifying-glass" />
                         </button>
                     </form>
@@ -103,7 +97,7 @@ export default {
                     <div class="filter-modal" :class="{ 'hide': !store.show }">
                         <ul>
                             <li class="searched-result" v-for="location in this.locations"
-                                @click="getInfo((`${location.address.countrySecondarySubdivision} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon))">
+                                @click="getInfo((`${location.address.freeformAddress} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon))">
                                 {{ location.address.freeformAddress }}
                             </li>
                         </ul>
