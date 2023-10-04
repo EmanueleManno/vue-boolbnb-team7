@@ -1,12 +1,14 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../pages/HomePage.vue';
+import SearchPage from '../pages/SearchPage.vue';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        {path:'/', name: 'home', component: HomePage},
-        {path:'/:pathMatch(.*)*', redirect: '/'},
+        { path: '/', name: 'home', component: HomePage },
+        { path: '/search', name: 'search', component: SearchPage },
+        { path: '/:pathMatch(.*)*', redirect: '/' },
     ]
 });
 
-export{router};
+export { router };
