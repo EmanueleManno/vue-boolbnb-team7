@@ -8,15 +8,18 @@ export default {
 
 <template>
     <div class="card">
-        <a href="#">
+        <RouterLink :to="{ name: 'apartment', params: { id: apartment.id } }">
             <div class="card-img">
-                <img :src="apartment.image" :alt="apartment.title">
+                <img v-if="apartment.image" :src="`http://127.0.0.1:8000/storage/${apartment.image}`"
+                    :alt="apartment.title">
+                <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
+                    alt="placeholder">
             </div>
             <div class="card-content">
                 <h6 class="card-title">{{ apartment.title }}</h6>
                 <div><b>{{ apartment.price }}€</b> a notte</div>
             </div>
-        </a>
+        </RouterLink>
     </div>
 </template>
 

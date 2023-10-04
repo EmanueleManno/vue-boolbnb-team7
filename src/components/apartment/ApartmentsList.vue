@@ -1,7 +1,5 @@
 <script>
 import ApartmentCard from './ApartmentCard.vue';
-
-
 export default {
     props: {
         apartments: Array
