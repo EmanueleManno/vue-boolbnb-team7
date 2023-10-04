@@ -89,19 +89,20 @@ export default {
                             <!-- Rooms -->
                             <div class="col-12 col-sm-4 mb-3">
                                 <label for="rooms" class="form-label fw-bold">Numero di stanze</label>
-                                <input v-model.trim="filters.rooms" type="number" class="form-control" id="rooms">
+                                <input v-model.trim="filters.rooms" type="number" class="form-control" id="rooms" min="0">
                             </div>
 
                             <!-- Beds -->
                             <div class="col-12 col-sm-4 mb-3">
                                 <label for="beds" class="form-label fw-bold">Numero di letti</label>
-                                <input v-model.trim="filters.beds" type="number" class="form-control" id="beds">
+                                <input v-model.trim="filters.beds" type="number" class="form-control" id="beds" min="0">
                             </div>
 
                             <!-- Radius -->
                             <div class="col-12 col-sm-4 mb-3">
                                 <label for="radiusKm" class="form-label fw-bold">Raggio ricerca [km]</label>
-                                <input v-model.trim="filters.radiusKm" type="number" class="form-control" id="radiusKm">
+                                <input v-model.trim="filters.radiusKm" type="number" class="form-control" id="radiusKm"
+                                    min="0">
                             </div>
 
                             <!-- Services -->
