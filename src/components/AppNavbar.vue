@@ -1,8 +1,14 @@
 <script>
+import SearchModal from './search/SearchModal.vue';
+import { store } from '../js/store.js';
+
 import axios from 'axios';
-const endpoint = 'http://localhost:8000/api/categories'
+const endpoint = 'http://localhost:8000/api/categories';
+
+
 export default {
-    data: () => ({ categories: [] }),
+    components: { SearchModal },
+    data: () => ({ categories: [], store:store }),
     methods: {
         fetchCategories() {
             axios.get(endpoint).then(res => { this.categories = res.data })
@@ -10,6 +16,12 @@ export default {
     },
     created() {
         this.fetchCategories();
+    },
+    computed: {
+        filterNumber(){
+
+            return
+        }
     }
 }
 </script>
@@ -18,21 +30,26 @@ export default {
     <nav class="bool-nav">
         <div class="container">
             <div class="row">
-                <ul class="col col-11 col-md-10 col-lg-11">
+
+                <!-- Categories -->
+                <ul class="col-10">
                     <li v-for="category in categories" :key="category.id">
                         <img :src="`src/assets/img/category/${category.img}`" :alt="category.name">
                         <div>{{ category.name }}</div>
                     </li>
                 </ul>
-                <div class="d-none d-md-flex col col-md-2 col-lg-1 align-items-center justify-content-end">
-                    <button class="filter"><!-- Filtri avanzati (DA FARE) -->
+
+                <!-- Advanced Filters -->
+                <div class="col-2 d-flex align-items-center justify-content-end">
+                    <button class="filter" data-bs-toggle="modal" data-bs-target="#searchModal" :class="{ 'has-filter': store.filters > 0 }">
                         <font-awesome-icon icon="sliders" />
-                        <span>Filtri</span>
+                        <span class="d-none d-md-inline">Filtri</span>
                     </button>
+
+                    <!-- Search Modal -->
+                    <SearchModal />
                 </div>
-                <div class="col-1 d-flex d-md-none align-items-center justify-content-end">
-                    <div class="filter"><font-awesome-icon icon="sliders" /></div> <!-- Filtri avanzati (DA FARE) -->
-                </div>
+
             </div>
         </div>
     </nav>
@@ -94,10 +111,15 @@ export default {
         width: 25px;
     }
 
+
     .filter {
         @include flex;
         @include circle(40px);
         border: 1px solid $light-grey;
+    }
+
+    .has-filter {
+        border: 2px solid black;
     }
 
     @media (min-width: 768px) {
