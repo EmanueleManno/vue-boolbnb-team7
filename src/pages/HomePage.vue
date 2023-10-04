@@ -22,7 +22,7 @@ export default {
 
 <template>
     <main>
-        <AppNavbar />
+        <!-- <AppNavbar /> -->
         <ApartmentsList :apartments="apartments" />
     </main>
     <!-- Loader -->
