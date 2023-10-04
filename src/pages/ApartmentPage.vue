@@ -3,6 +3,7 @@ import axios from 'axios';
 // TomTom Map
 import tt from "@tomtom-international/web-sdk-maps";
 import '@tomtom-international/web-sdk-maps/dist/maps.css';
+
 const apartment_endpoint = 'http://localhost:8000/api/apartments/';
 const services_endpoint = 'http://localhost:8000/api/services'
 
@@ -14,7 +15,7 @@ export default {
         }
     },
     methods: {
-        // Services
+        // Get all services
         fetchServices() {
             axios.get(services_endpoint).then(res => { this.services = res.data })
         },
@@ -63,11 +64,19 @@ export default {
         </header>
 
         <div class="container">
+            <!-- Image -->
             <div class="slider">
                 <div></div>
-                <!-- Image -->
-                <div class="image-container">
+                <div v-if="apartment.image" class="image-container">
                     <img :src="`http://127.0.0.1:8000/storage/${apartment.image}`" :alt="apartment.title">
+                </div>
+                <!-- Without image -->
+                <div v-else class="no-image">
+                    <div class="icon">
+                        <img src="../assets/img/camera.png" alt="camera">
+                    </div>
+                    <h3>L'host non ha ancora inserito immagini, contattalo per saperne di più!</h3>
+                    <a href="#message-form"><font-awesome-icon :icon="['fas', 'arrow-down']" bounce size="2xl" /></a>
                 </div>
                 <div></div>
             </div>
@@ -75,15 +84,18 @@ export default {
             <!-- Information -->
             <section id="apartments-details">
                 <div>
+                    <!-- Address -->
                     <h3 class="mb-2">{{ apartment.address }}</h3>
+                    <!-- Rooms -->
                     <ul>
                         <li>{{ apartment.rooms + ' ' + (apartment.rooms == 1 ? 'camera' : 'camere') }}</li>
-                        <span class="separator">-</span>
+                        <span>-</span>
                         <li>{{ apartment.beds + ' ' + (apartment.beds == 1 ? 'letto' : 'letti') }}</li>
-                        <span class="separator">-</span>
+                        <span>-</span>
                         <li>{{ apartment.bathrooms + ' ' + (apartment.bathrooms == 1 ? 'bagno' : 'bagni') }}</li>
                     </ul>
                 </div>
+                <!-- Host information -->
                 <hr v-if="apartment.user.name">
                 <div v-if="apartment.user.name" class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-4">
@@ -91,23 +103,27 @@ export default {
                         <h3>Nome dell'host: {{ capitalizeString(apartment.user.name) }}</h3>
                     </div>
 
-                    <a href="#message-form" class="button-light">Contatta {{ capitalizeString(apartment.user.name) }}</a>
+                    <a href="#message-form" class="button button-light">Contatta {{ capitalizeString(apartment.user.name)
+                    }}</a>
                 </div>
                 <hr>
+                <!-- Description -->
                 <div>
                     <h3 class="mb-2">Descrizione</h3>
                     <p>{{ apartment.description }}</p>
                 </div>
                 <hr>
+                <!-- Services -->
                 <div>
                     <h3 class="mb-3">Cosa troverai</h3>
                     <ul class="service-list">
                         <li v-for="service in apartment.services">
-                            <img :src="`src/assets/img/service/${service.image}`" :alt="service.name">
-                            {{ service.name }}
+                            <div><img :src="`../src/assets/img/service/${service.image}`" :alt="service.name"></div>
+                            <span>{{ service.name }}</span>
                         </li>
                     </ul>
                 </div>
+                <!-- Map -->
                 <hr v-if="apartment.address">
                 <div v-if="apartment.address">
                     <h3 class="mb-3">Dove ti troverai</h3>
@@ -122,7 +138,7 @@ export default {
                         <textarea class="form-control mb-4" placeholder="Leave a comment here" id="floatingTextarea"
                             style="height: 160px;"></textarea>
                     </div>
-                    <button class="button-light">Invia messaggio</button>
+                    <button class="button button-light">Invia messaggio</button>
                 </section>
             </section>
         </div>
@@ -132,50 +148,12 @@ export default {
 <style lang="scss" scoped>
 @use '../assets/scss/vars' as *;
 
-hr {
-    margin: 0;
-}
-
-#message-form {
-    padding: 24px 0;
-}
-
-.button-light {
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 13px 23px;
-}
-
-#map {
-    height: 480px;
-    overflow: hidden;
-}
-
+//_______ HEADER
 header {
     padding: 24px 0;
 }
 
-h3 {
-    font-size: 18px;
-}
-
-.user {
-    @include circle(calc(40px + 2vw));
-    @include flex;
-    font-size: calc(10px + 2vw);
-    color: white;
-    background-color: black;
-}
-
-.image-container {
-    width: calc(100vw - 24px);
-    height: calc(100vw - 24px);
-    max-width: 100%;
-    max-height: 360px;
-    overflow: hidden;
-    border-radius: 20px;
-}
-
+// Apartment image
 .slider {
     display: flex;
 }
@@ -186,14 +164,44 @@ h3 {
     border-radius: 20px;
 }
 
+// If there is
+.image-container {
+    @include square(calc(100vw - 24px), 20px);
+    @include max-size($max: true, $max-width: 100%, $max-height: 360px);
+    overflow: hidden;
+}
+
 img {
-    width: 100%;
-    height: 100%;
+    @include max-size;
     object-fit: cover;
 }
 
+// If there in not image
+.no-image {
+    border: 1px solid $light-grey;
+    border-radius: 15px;
+    padding: 15px;
+    @include flex($direction: column, $gap: 20px);
+
+    .icon {
+        @include flex;
+        width: 30%;
+
+        img {
+            width: 100%;
+            filter: invert(44%) sepia(52%) saturate(6771%) hue-rotate(329deg) brightness(101%) contrast(101%);
+        }
+    }
+}
+
+// INFORMATION
 #apartments-details>div {
     padding: 24px 0;
+}
+
+h3 {
+    font-size: 18px;
+    text-wrap: wrap
 }
 
 ul {
@@ -202,23 +210,68 @@ ul {
     font-size: 16px;
 }
 
-.service-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+// Host information
+.user {
+    @include circle(calc(40px + 2vw));
+    @include flex;
+    font-size: calc(10px + 2vw);
+    color: white;
+    background-color: black;
 }
 
-// Media Query
+// Services
+.service-list {
+    @include flex(stretch, stretch, column, wrap, 20px);
+    max-height: 400px;
+
+    li {
+        @include flex(start, center, $gap: 7px);
+        border: 1px solid $light-grey;
+        border-radius: 15px;
+        padding: 10px;
+
+        div {
+            @include square(30px);
+            overflow: hidden;
+
+            img {
+                @include max-size;
+                object-fit: contain;
+                filter: brightness(0) saturate(100%);
+            }
+        }
+    }
+}
+
+// Map
+#map {
+    height: 480px;
+    border-radius: 15px;
+}
+
+// Section message
+#message-form {
+    padding: 24px 0;
+}
+
+// MEDIA QUERY
 @media (min-width: 768px) {
     .image-container {
-        max-height: 400px;
-        max-width: 696px;
+        @include max-size($max: true, $max-width: 696px, $max-height: 400px);
+    }
+
+    .no-image {
+        margin: 0 20px;
     }
 }
 
 @media (min-width: 992px) {
     .slider {
         gap: 20px;
+    }
+
+    .no-image {
+        margin: 0;
     }
 }
 </style>

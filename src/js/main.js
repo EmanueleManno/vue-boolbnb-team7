@@ -18,7 +18,8 @@ import { faFacebook } from '@fortawesome/free-brands-svg-icons'
 import { faInstagram } from '@fortawesome/free-brands-svg-icons'
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons'
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
-library.add(faMagnifyingGlass, faUser, faBars, faGlobe, faSliders, faFacebook, faInstagram, faXTwitter, faFilter)
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
+library.add(faMagnifyingGlass, faUser, faBars, faGlobe, faSliders, faFacebook, faInstagram, faXTwitter, faFilter, faArrowDown)
 
 const app = createApp(App);
 app.use(router);
