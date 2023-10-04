@@ -43,10 +43,42 @@ export default {
                 const marker = new tt.Marker().setLngLat([lon, lat]).addTo(map);
             }
         },
+        // Services not available in the apartment
+        serviceNotAvailable() {
+            // Services of the apartament (Available Services)
+            const avServ = this.apartment.services;
+
+            // Array with ids of available services
+            let avServId = [];
+            avServ.forEach(s => {
+                avServId.push(s.id)
+            });
+
+            // Array with services not available
+            let notAv = [];
+            this.services.forEach(s => {
+                if (!avServId.includes(s.id)) {
+                    notAv.push(s);
+                }
+            });
+
+            return notAv;
+        },
+        getServiceClass() {
+            if (this.apartment.services.length <= 5) {
+                return 'services-small'
+            } else if (this.apartment.services.length <= 10) {
+                return 'services-medium'
+            } else if (this.apartment.services.length > 10) {
+                return 'services-large'
+            }
+        }
+
     },
     created() {
         this.getApartment();
-        this.fetchServices()
+        this.fetchServices();
+
     },
     mounted() {
         this.getMap();
@@ -55,6 +87,7 @@ export default {
 </script>
 
 <template>
+    <!-- {{ services }} -->
     <main>
         <!-- Header -->
         <header>
@@ -114,14 +147,56 @@ export default {
                 </div>
                 <hr>
                 <!-- Services -->
-                <div>
+                <div :id="getServiceClass()">
                     <h3 class="mb-3">Cosa troverai</h3>
-                    <ul class="service-list">
-                        <li v-for="service in apartment.services">
-                            <div><img :src="`../src/assets/img/service/${service.image}`" :alt="service.name"></div>
-                            <span>{{ service.name }}</span>
-                        </li>
-                    </ul>
+                    <div>
+                        <ul class="service-list">
+                            <li v-for="service in apartment.services">
+                                <div><img :src="`../src/assets/img/service/${service.image}`" :alt="service.name"></div>
+                                <span>{{ service.name }}</span>
+                            </li>
+                        </ul>
+                        <div class="services">
+                            <h2>Scopri i servizi non inclusi</h2>
+                            <div>
+                                <!-- Modal Button -->
+                                <button type="button" class="services-button button button-light" data-bs-toggle="modal"
+                                    data-bs-target="#serviceModal">Mostra tutti i {{ services.length }}
+                                    servizi </button>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade modal-lg" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3 class="mb-3">Cosa troverai</h3>
+                                        <ul class="service-list">
+                                            <li v-for="service in apartment.services">
+                                                <div><img :src="`../src/assets/img/service/${service.image}`"
+                                                        :alt="service.name"></div>
+                                                <span>{{ service.name }}</span>
+                                            </li>
+                                        </ul>
+                                        <h3 class="mt-5 mb-3">Non incluso</h3>
+                                        <ul class="service-list">
+                                            <li v-for="service in serviceNotAvailable()">
+                                                <div><img :src="`../src/assets/img/service/${service.image}`"
+                                                        :alt="service.name"></div>
+                                                <span class="text-decoration-line-through">{{ service.name }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Map -->
                 <hr v-if="apartment.address">
@@ -223,6 +298,7 @@ ul {
 .service-list {
     @include flex(stretch, stretch, column, wrap, 20px);
     max-height: 400px;
+    flex-grow: 1;
 
     li {
         @include flex(start, center, $gap: 7px);
@@ -243,6 +319,32 @@ ul {
     }
 }
 
+#services-large .service-list {
+    max-height: 800px;
+}
+
+.services-button,
+#services-large .services {
+    display: flex;
+}
+
+.services {
+    @include flex(center, center, column, $gap: 10px);
+    padding: 20px 0;
+}
+
+#services-medium .services h2,
+#services-large .services h2 {
+    display: none;
+}
+
+#services-small>div,
+#services-medium>div,
+#services-large>div {
+    display: flex;
+    flex-direction: column;
+}
+
 // Map
 #map {
     height: 480px;
@@ -255,6 +357,17 @@ ul {
 }
 
 // MEDIA QUERY
+@media (min-width: 576px) {
+    #services-small .services {
+        flex-basis: 50%;
+        padding: 20px;
+    }
+
+    #services-large .service-list {
+        max-height: 400px;
+    }
+}
+
 @media (min-width: 768px) {
     .image-container {
         @include max-size($max: true, $max-width: 696px, $max-height: 400px);
@@ -262,6 +375,20 @@ ul {
 
     .no-image {
         margin: 0 20px;
+    }
+
+    #services-medium .services {
+        flex-basis: 50%;
+        padding: 20px;
+
+        h2 {
+            display: flex;
+        }
+    }
+
+    #services-small>div,
+    #services-medium>div {
+        flex-direction: row;
     }
 }
 
