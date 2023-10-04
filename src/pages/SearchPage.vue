@@ -14,35 +14,24 @@ export default {
         isLoading: true,
     }),
 
-    computed: {
-        lat() {
-            return this.$route?.query.lat;
-        },
-        lon() {
-            return this.$route?.query.lon;
-        },
-    },
-
     watch: {
-        lat: {
-            handler(newLat, oldLat) {
-                if (newLat != oldLat) {
-                    this.fetchApartments();
-                }
+        '$route.query': {
+            handler(newQuery) {
+                this.fetchApartments();
             }
         }
     },
 
     methods: {
         fetchApartments() {
-            const params = {
-                lat: this.lat,
-                lon: this.lon
-            };
 
-            // console.log(params);
             this.isLoading = true;
 
+            // Get query
+            const params = this.$route.query;
+
+
+            // Call API
             axios.get(endpoint, { params })
                 .then(res => {
                     this.apartments = res.data;
