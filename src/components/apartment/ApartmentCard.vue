@@ -9,7 +9,7 @@ export default {
          * Get distance in Km (only Search Page)
          */
         distance() {
-            if (!this.apartment.distance) return '';
+            if (!this.apartment.distance === undefined) return '';
             return Math.ceil(parseInt(this.apartment.distance) / 1000) + ' Km';
         },
 
@@ -43,7 +43,7 @@ export default {
                     alt="placeholder">
 
                 <!-- Distance -->
-                <div v-if="apartment.distance" class="distance">
+                <div v-if="apartment.distance !== undefined" class="distance">
                     <font-awesome-icon :icon="['fas', 'location-dot']" class="me-1" />
                     {{ distance }}
                 </div>
