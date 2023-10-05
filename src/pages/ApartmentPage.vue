@@ -7,7 +7,8 @@ import tt from "@tomtom-international/web-sdk-maps";
 import '@tomtom-international/web-sdk-maps/dist/maps.css';
 
 const apartment_endpoint = 'http://localhost:8000/api/apartments/';
-const services_endpoint = 'http://localhost:8000/api/services'
+const services_endpoint = 'http://localhost:8000/api/services';
+const message_endpoint = 'http://localhost:8000/api/messages';
 
 export default {
     components: { AppLoader },
@@ -16,6 +17,9 @@ export default {
             apartment: '',
             services: [],
             isLoading: true,
+            name: '',
+            email: '',
+            content: '',
         }
     },
     methods: {
@@ -26,6 +30,17 @@ export default {
         // Get apartment details
         getApartment() {
             axios.get(apartment_endpoint + this.$route.params.id).then(res => { this.apartment = res.data })
+        },
+        // Send a message to the host
+        sendMessage() {
+            axios.post('http://localhost:8000/api/messages', {
+                name: 'ciao',
+                email: 'prova@mail.com',
+                content: 'testo testo',
+                apartment_id: this.apartment.id
+            })
+                .then(res => { console.log(res); })
+                .catch(err => { console.log(err); });
         },
         // Get First letter of a string
         getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
@@ -220,13 +235,29 @@ export default {
                         <div class="mt-2 fw-">{{ apartment.address }}</div>
                     </div>
                     <hr>
+                    <!-- Message form -->
                     <section id="message-form">
                         <h3 class="mb-3">Hai domande? Invia un messaggio all'host</h3>
-                        <div class="form-floating">
-                            <textarea class="form-control mb-4" placeholder="Leave a comment here" id="floatingTextarea"
-                                style="height: 160px;"></textarea>
-                        </div>
-                        <button class="button button-light">Invia messaggio</button>
+                        <form class="form-floating" @submit.prevent="sendMessage()">
+                            <!-- Name -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Inserisci il tuo nome</label>
+                                <input type="text" class="form-control" id="name" v-model="name">
+                            </div>
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Inserisci la tua email</label>
+                                <input type="email" class="form-control" id="email" placeholder="name@example.com"
+                                    v-model="email">
+                            </div>
+                            <!-- Content -->
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Contenuto del messaggio</label>
+                                <textarea class="form-control mb-4" placeholder="Leave a comment here" id="floatingTextarea"
+                                    style="height: 160px;" v-model="content"></textarea>
+                            </div>
+                            <button type="submit" class="button button-light">Invia messaggio</button>
+                        </form>
                     </section>
                 </section>
             </div>
