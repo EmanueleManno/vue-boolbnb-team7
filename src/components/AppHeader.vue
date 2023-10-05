@@ -29,6 +29,12 @@ export default {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(this.findLocation, 500);
         },
+
+        // Go to Filter Page
+        goToFilterPage(router, lat, lon) {
+            router.push({ name: 'search', query: { lat, lon } })
+        },
+
         checkIfBlank() {
             if (this.searchedText === '') {
                 this.lat = '';
@@ -53,12 +59,13 @@ export default {
             }
         },
         // Get latitude, longitude and value
-        getInfo(value, lat, lon) {
+        selectAddress(value, lat, lon, router) {
             this.searchedText = value;
             this.lat = lat;
             this.lon = lon;
             if (this.searchedText !== '') {
             }
+            this.goToFilterPage(router, lat, lon)
         }
     },
     created() {
@@ -85,7 +92,7 @@ export default {
                 <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
 
                     <!-- Address Search Form -->
-                    <form @submit.prevent="$router.push({ name: 'search', query: { lat, lon } })" class="search-bar">
+                    <form @submit.prevent="goToFilterPage($router, lat, lon)" class="search-bar">
                         <input v-model.trim="searchedText" type="text" class="form-control" placeholder="Inserisci un luogo"
                             @keyup="searchLocation">
                         <span v-if="searchedText.length" class="remove-text" @click="searchedText = ''"><font-awesome-icon
@@ -99,7 +106,7 @@ export default {
                     <div class="filter-modal" :class="{ 'hide': !store.show }">
                         <ul>
                             <li v-for="location in this.locations"
-                                @click="getInfo((`${location.address.freeformAddress} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon))">
+                                @click="selectAddress((`${location.address.freeformAddress} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon), ($router))">
                                 <div class="searched-result">
                                     <div class="location-dot"><font-awesome-icon :icon="['fas', 'location-dot']" /></div>
                                     <span>{{ location.address.freeformAddress }}</span>
