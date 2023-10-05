@@ -1,13 +1,10 @@
-
 <script>
 export default {
   props: {
-    isLoading: Boolean, 
+    isLoading: Boolean,
   },
 };
 </script>
-
-
 
 <template>
   <div class="loader" v-if="isLoading">
@@ -17,22 +14,24 @@ export default {
   </div>
 </template>
   
-  
-  
-<style scoped>
-  .loader {
-    
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 24px;
-  }
+<style lang="scss" scoped>
+@use '../assets/scss/vars' as *;
 
+.loader {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 120px);
+  background: $light-grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+}
+
+.spinner-border {
+  @include circle(100px);
+}
 </style>

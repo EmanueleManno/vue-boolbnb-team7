@@ -1,4 +1,6 @@
 <script>
+import AppLoader from '../components/AppLoader.vue';
+
 import axios from 'axios';
 // TomTom Map
 import tt from "@tomtom-international/web-sdk-maps";
@@ -8,10 +10,12 @@ const apartment_endpoint = 'http://localhost:8000/api/apartments/';
 const services_endpoint = 'http://localhost:8000/api/services'
 
 export default {
+    components: { AppLoader },
     data() {
         return {
             apartment: '',
             services: [],
+            isLoading: true,
         }
     },
     methods: {
@@ -27,7 +31,7 @@ export default {
         getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
         // Capitalize a string
         capitalizeString: (word) => (word.charAt(0).toUpperCase() + word.slice(1)),
-        // TomTom Map
+        // // TomTom Map
         getMap() {
             if (this.apartment.address) {
                 const mapContainer = document.getElementById('map');
@@ -41,7 +45,10 @@ export default {
                 });
                 map.addControl(new tt.NavigationControl());
                 const marker = new tt.Marker().setLngLat([lon, lat]).addTo(map);
+
+                console.log('MAPPA');
             }
+            console.log('NIENTE MAPPA');
         },
         // Services not available in the apartment
         serviceNotAvailable() {
@@ -78,146 +85,153 @@ export default {
     created() {
         this.getApartment();
         this.fetchServices();
-
     },
     mounted() {
-        this.getMap();
+        this.isLoading = false;
+        setTimeout(() => {
+            this.getMap();
+        }, 1000);
     }
 }
 </script>
 
 <template>
-    <!-- {{ services }} -->
     <main>
-        <!-- Header -->
-        <header>
+        <div v-if="!isLoading">
+            <!-- Header -->
+            <header>
+                <div class="container">
+                    <h2>{{ apartment.title }}</h2>
+                </div>
+            </header>
+
             <div class="container">
-                <h2>{{ apartment.title }}</h2>
-            </div>
-        </header>
-
-        <div class="container">
-            <!-- Image -->
-            <div class="slider">
-                <div></div>
-                <div v-if="apartment.image" class="image-container">
-                    <img :src="`http://127.0.0.1:8000/storage/${apartment.image}`" :alt="apartment.title">
-                </div>
-                <!-- Without image -->
-                <div v-else class="no-image">
-                    <div class="icon">
-                        <img src="../assets/img/camera.png" alt="camera">
+                <!-- Image -->
+                <div class="slider">
+                    <div></div>
+                    <div v-if="apartment.image" class="image-container">
+                        <img :src="`http://127.0.0.1:8000/storage/${apartment.image}`" :alt="apartment.title">
                     </div>
-                    <h3>L'host non ha ancora inserito immagini, contattalo per saperne di più!</h3>
-                    <a href="#message-form"><font-awesome-icon :icon="['fas', 'arrow-down']" bounce size="2xl" /></a>
-                </div>
-                <div></div>
-            </div>
-
-            <!-- Information -->
-            <section id="apartments-details">
-                <div>
-                    <!-- Address -->
-                    <h3 class="mb-2">{{ apartment.address }}</h3>
-                    <!-- Rooms -->
-                    <ul>
-                        <li>{{ apartment.rooms + ' ' + (apartment.rooms == 1 ? 'camera' : 'camere') }}</li>
-                        <span>-</span>
-                        <li>{{ apartment.beds + ' ' + (apartment.beds == 1 ? 'letto' : 'letti') }}</li>
-                        <span>-</span>
-                        <li>{{ apartment.bathrooms + ' ' + (apartment.bathrooms == 1 ? 'bagno' : 'bagni') }}</li>
-                    </ul>
-                </div>
-                <!-- Host information -->
-                <hr v-if="apartment.user.name">
-                <div v-if="apartment.user.name" class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center gap-4">
-                        <div class="user">{{ getFirstLetter(apartment.user.name) }}</div>
-                        <h3>Nome dell'host: {{ capitalizeString(apartment.user.name) }}</h3>
+                    <!-- Without image -->
+                    <div v-else class="no-image">
+                        <div class="icon">
+                            <img src="../assets/img/camera.png" alt="camera">
+                        </div>
+                        <h3>L'host non ha ancora inserito immagini, contattalo per saperne di più!</h3>
+                        <a href="#message-form"><font-awesome-icon :icon="['fas', 'arrow-down']" bounce size="2xl" /></a>
                     </div>
+                    <div></div>
+                </div>
 
-                    <a href="#message-form" class="button button-light">Contatta {{ capitalizeString(apartment.user.name)
-                    }}</a>
-                </div>
-                <hr>
-                <!-- Description -->
-                <div>
-                    <h3 class="mb-2">Descrizione</h3>
-                    <p>{{ apartment.description }}</p>
-                </div>
-                <hr>
-                <!-- Services -->
-                <div :id="getServiceClass()">
-                    <h3 class="mb-3">Cosa troverai</h3>
+                <!-- Information -->
+                <section id="apartments-details">
                     <div>
-                        <ul class="service-list">
-                            <li v-for="service in apartment.services">
-                                <div><img :src="`../src/assets/img/service/${service.image}`" :alt="service.name"></div>
-                                <span>{{ service.name }}</span>
-                            </li>
+                        <!-- Address -->
+                        <h3 class="mb-2">{{ apartment.address }}</h3>
+                        <!-- Rooms -->
+                        <ul>
+                            <li>{{ apartment.rooms + ' ' + (apartment.rooms == 1 ? 'camera' : 'camere') }}</li>
+                            <span>-</span>
+                            <li>{{ apartment.beds + ' ' + (apartment.beds == 1 ? 'letto' : 'letti') }}</li>
+                            <span>-</span>
+                            <li>{{ apartment.bathrooms + ' ' + (apartment.bathrooms == 1 ? 'bagno' : 'bagni') }}</li>
                         </ul>
-                        <div class="services">
-                            <h2>Scopri i servizi non inclusi</h2>
-                            <div>
-                                <!-- Modal Button -->
-                                <button type="button" class="services-button button button-light" data-bs-toggle="modal"
-                                    data-bs-target="#serviceModal">Mostra tutti i {{ services.length }}
-                                    servizi </button>
-                            </div>
+                    </div>
+                    <!-- Host information -->
+                    <hr v-if="apartment.user.name">
+                    <div v-if="apartment.user.name" class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-4">
+                            <div class="user">{{ getFirstLetter(apartment.user.name) }}</div>
+                            <h3>Nome dell'host: {{ capitalizeString(apartment.user.name) }}</h3>
                         </div>
 
-                        <!-- Modal -->
-                        <div class="modal fade modal-lg" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h3 class="mb-3">Cosa troverai</h3>
-                                        <ul class="service-list">
-                                            <li v-for="service in apartment.services">
-                                                <div><img :src="`../src/assets/img/service/${service.image}`"
-                                                        :alt="service.name"></div>
-                                                <span>{{ service.name }}</span>
-                                            </li>
-                                        </ul>
-                                        <h3 class="mt-5 mb-3">Non incluso</h3>
-                                        <ul class="service-list">
-                                            <li v-for="service in serviceNotAvailable()">
-                                                <div><img :src="`../src/assets/img/service/${service.image}`"
-                                                        :alt="service.name"></div>
-                                                <span class="text-decoration-line-through">{{ service.name }}</span>
-                                            </li>
-                                        </ul>
+                        <a href="#message-form" class="button button-light">Contatta {{
+                            capitalizeString(apartment.user.name)
+                        }}</a>
+                    </div>
+                    <hr>
+                    <!-- Description -->
+                    <div>
+                        <h3 class="mb-2">Descrizione</h3>
+                        <p>{{ apartment.description }}</p>
+                    </div>
+                    <hr>
+                    <!-- Services -->
+                    <div :id="getServiceClass()">
+                        <h3 class="mb-3">Cosa troverai</h3>
+                        <div>
+                            <ul class="service-list">
+                                <li v-for="service in apartment.services">
+                                    <div><img :src="`../src/assets/img/service/${service.image}`" :alt="service.name"></div>
+                                    <span>{{ service.name }}</span>
+                                </li>
+                            </ul>
+                            <div class="services">
+                                <h2>Scopri i servizi non inclusi</h2>
+                                <div>
+                                    <!-- Modal Button -->
+                                    <button type="button" class="services-button button button-light" data-bs-toggle="modal"
+                                        data-bs-target="#serviceModal">Mostra tutti i {{ services.length }}
+                                        servizi </button>
+                                </div>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade modal-lg" id="serviceModal" tabindex="-1"
+                                aria-labelledby="serviceModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h3 class="mb-3">Cosa troverai</h3>
+                                            <ul class="service-list">
+                                                <li v-for="service in apartment.services">
+                                                    <div><img :src="`../src/assets/img/service/${service.image}`"
+                                                            :alt="service.name"></div>
+                                                    <span>{{ service.name }}</span>
+                                                </li>
+                                            </ul>
+                                            <h3 class="mt-5 mb-3">Non incluso</h3>
+                                            <ul class="service-list">
+                                                <li v-for="service in serviceNotAvailable()">
+                                                    <div><img :src="`../src/assets/img/service/${service.image}`"
+                                                            :alt="service.name"></div>
+                                                    <span class="text-decoration-line-through">{{ service.name }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Map -->
-                <hr v-if="apartment.address">
-                <div v-if="apartment.address">
-                    <h3 class="mb-3">Dove ti troverai</h3>
-                    <div id="map" :data-latitude="apartment.latitude" :data-longitude="apartment.longitude"
-                        style="height:480px"></div>
-                    <div class="mt-2 fw-">{{ apartment.address }}</div>
-                </div>
-                <hr>
-                <section id="message-form">
-                    <h3 class="mb-3">Hai domande? Invia un messaggio all'host</h3>
-                    <div class="form-floating">
-                        <textarea class="form-control mb-4" placeholder="Leave a comment here" id="floatingTextarea"
-                            style="height: 160px;"></textarea>
+                    <!-- Map -->
+                    <hr v-if="apartment.address">
+                    <div v-if="apartment.address">
+                        <h3 class="mb-3">Dove ti troverai</h3>
+                        <div id="map" :data-latitude="apartment.latitude" :data-longitude="apartment.longitude"
+                            style="height:480px"></div>
+                        <div class="mt-2 fw-">{{ apartment.address }}</div>
                     </div>
-                    <button class="button button-light">Invia messaggio</button>
+                    <hr>
+                    <section id="message-form">
+                        <h3 class="mb-3">Hai domande? Invia un messaggio all'host</h3>
+                        <div class="form-floating">
+                            <textarea class="form-control mb-4" placeholder="Leave a comment here" id="floatingTextarea"
+                                style="height: 160px;"></textarea>
+                        </div>
+                        <button class="button button-light">Invia messaggio</button>
+                    </section>
                 </section>
-            </section>
+            </div>
         </div>
     </main>
+
+    <!-- Loader -->
+    <AppLoader :is-loading="isLoading" />
 </template>
 
 <style lang="scss" scoped>
