@@ -15,13 +15,14 @@ export default {
             timeout: null,
             store: store,
             lat: null,
-            lon: null
+            lon: null,
+            loading: true
         };
     },
     methods: {
         // Get user deatils
         fetchUser() {
-            axios.get(user_endpoint).then(res => { this.user = res.data; });
+            axios.get(user_endpoint).then(res => { this.user = res.data; this.loading = false });
         },
         // Get First letter of a string
         getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
@@ -128,13 +129,20 @@ export default {
                     <div class="login-menu dropdown">
                         <button class="dropdown-toggle d-none d-md-flex align-items-center" data-bs-toggle="dropdown">
                             <font-awesome-icon icon="bars" />
-                            <div v-if="user.length" class="user ms-2">
+
+                            <div v-if="loading" class="user ms-2">
+                                <div class="spinner-border" role="status" style="width: 15px; height: 15px;">
+                                </div>
+                            </div>
+
+                            <div v-else-if="user.length && !loading" class="user ms-2">
                                 <span id="admin-name">{{ getFirstLetter(user[0]['name']) }}</span>
                             </div>
 
                             <div v-else class="user ms-2">
                                 <font-awesome-icon icon="user" />
                             </div>
+
                         </button>
 
                         <button class="dropdown-toggle d-flex d-md-none align-items-center" data-bs-toggle="dropdown">
