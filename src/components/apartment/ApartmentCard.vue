@@ -106,16 +106,16 @@ export default {
 .card-content {
     padding: 10px 0;
 
-    .service-icon {
-        @include square(25px);
-        overflow: hidden;
+    // .service-icon {
+    //     @include square(25px);
+    //     overflow: hidden;
 
-        img {
-            @include max-size;
-            object-fit: contain;
-            filter: brightness(0) saturate(100%);
-        }
-    }
+    //     img {
+    //         @include max-size;
+    //         object-fit: contain;
+    //         filter: brightness(0) saturate(100%);
+    //     }
+    // }
 }
 
 // Media Query
