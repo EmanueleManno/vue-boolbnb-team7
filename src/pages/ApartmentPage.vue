@@ -45,10 +45,7 @@ export default {
                 });
                 map.addControl(new tt.NavigationControl());
                 const marker = new tt.Marker().setLngLat([lon, lat]).addTo(map);
-
-                console.log('MAPPA');
             }
-            console.log('NIENTE MAPPA');
         },
         // Services not available in the apartment
         serviceNotAvailable() {
@@ -101,7 +98,13 @@ export default {
             <!-- Header -->
             <header>
                 <div class="container">
-                    <h2>{{ apartment.title }}</h2>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h2>{{ apartment.title }}</h2>
+                        <div class="go-back">
+                            <RouterLink :to="{ name: 'home' }"><font-awesome-icon :icon="['fas', 'chevron-left']" />
+                            </RouterLink>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -240,6 +243,20 @@ export default {
 //_______ HEADER
 header {
     padding: 24px 0;
+}
+
+.go-back {
+    @include circle(40px);
+    @include flex;
+    flex: 0 0 40px;
+    margin-left: 5px;
+    border: 1px solid $light-grey;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+    &:hover {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+    }
 }
 
 // Apartment image
