@@ -13,7 +13,7 @@ export default {
             'services[]': [],
         },
         store: store,
-        
+
     }),
     computed: {
         radius() {
@@ -65,28 +65,54 @@ export default {
             this.addFilters();
         },
 
+
         // Check if are any filters in the URL
         assignFilters() {
 
-            if(this.$route?.query.rooms > 0) {
+            if (this.$route?.query.rooms && this.$route?.query.rooms > 0) {
                 this.filters.rooms = this.$route?.query.rooms;
             };
 
-            if(this.$route?.query.beds > 0) {
+            if (this.$route?.query.beds && this.$route?.query.beds > 0) {
                 this.filters.beds = this.$route?.query.beds;
+            };
+
+            if (this.$route?.query.radius && this.$route?.query.radius != 20000) {
+                this.filters.radiusKm = parseInt(this.$route?.query.radius) / 1000;
+            };
+
+            if (this.$route?.query['services[]'] && this.$route?.query['services[]'].length) {
+                this.filters['services[]'] = [...this.$route?.query['services[]']];
             };
 
         },
 
-        addFilters(){
-            if(this.filters.rooms){
-                this.store.filters += 1;
+        // Update Filters Counter
+        addFilters() {
+
+            let totalFilters = 0;
+
+
+            // Count Filters
+            if (this.filters.rooms) {
+                totalFilters += 1;
             };
-            
-            if(this.filters.beds) {
-                this.store.filters += 1;
+
+            if (this.filters.beds) {
+                totalFilters += 1;
             }
+
+            if (this.filters.radiusKm != 20) {
+                totalFilters += 1;
+            }
+
+            totalFilters += this.filters['services[]'].length;
+
+
+            // Update Counter
+            this.store.filters = totalFilters;
         }
+
     },
 
     created() {
