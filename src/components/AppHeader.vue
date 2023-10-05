@@ -88,6 +88,8 @@ export default {
                     <form @submit.prevent="$router.push({ name: 'search', query: { lat, lon } })" class="search-bar">
                         <input v-model.trim="searchedText" type="text" class="form-control" placeholder="Inserisci un luogo"
                             @keyup="searchLocation">
+                        <span v-if="searchedText.length" class="remove-text" @click="searchedText = ''"><font-awesome-icon
+                                :icon="['fas', 'x']" /></span>
                         <button type="submit" class="input-icon" @click="checkIfBlank">
                             <font-awesome-icon icon="magnifying-glass" />
                         </button>
@@ -96,9 +98,12 @@ export default {
                     <!-- Address Modal -->
                     <div class="filter-modal" :class="{ 'hide': !store.show }">
                         <ul>
-                            <li class="searched-result" v-for="location in this.locations"
+                            <li v-for="location in this.locations"
                                 @click="getInfo((`${location.address.freeformAddress} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon))">
-                                {{ location.address.freeformAddress }}
+                                <div class="searched-result">
+                                    <div class="location-dot"><font-awesome-icon :icon="['fas', 'location-dot']" /></div>
+                                    <span>{{ location.address.freeformAddress }}</span>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -218,45 +223,52 @@ header {
     }
 }
 
-
-// Modal
 .searchbox {
     position: relative;
+}
 
-    .filter-modal {
-        width: 100%;
-        height: 220px;
-        background-color: white;
-        border-radius: 10px;
-        position: absolute;
-        bottom: -220px;
-        left: 0;
+// Address Modal
+.filter-modal {
+    width: 100%;
+    height: 300px;
+    background-color: white;
+    border-radius: 10px;
+    position: absolute;
+    bottom: -300px;
+    left: 0;
+    padding: 20px;
+    box-shadow: 0 0 8px 4px rgba($color: #000, $alpha: 0.1);
 
-        box-shadow: 0 0 8px 4px rgba($color: #000, $alpha: 0.1);
+    ul {
+        @include flex(space-between, stretch, column);
+        height: 100%;
     }
+}
 
-    .searched-result {
-        padding-top: 5px;
-        padding-left: 10px;
-        font-size: 20px;
-        padding-bottom: 7px;
-        cursor: pointer;
+.location-dot {
+    @include square(40px, 10px);
+    @include flex;
+    flex: 0 0 40px;
+    background-color: #ebebeb;
+}
 
-        &:hover {
-            background-color: rgb(238, 234, 234);
-            border-radius: 10px;
-        }
-    }
+.searched-result {
+    @include flex(start, $gap: 15px);
+    flex-basis: 100%;
+    cursor: pointer;
+}
 
+li {
+    padding: 3px 10px;
+}
 
-
+li:hover {
+    background-color: rgb(245, 245, 245);
 }
 
 .hide {
     display: none;
 }
-
-
 
 // Input 
 .form-control {
@@ -267,6 +279,11 @@ header {
         border: none;
         box-shadow: none;
     }
+}
+
+.remove-text {
+    margin-right: 10px;
+    cursor: pointer;
 }
 
 // Search icon
