@@ -287,7 +287,8 @@ export default {
                         <form class="form-floating needs-validation" @submit.prevent="sendMessage" novalidate>
                             <!-- Name -->
                             <div class="mb-4">
-                                <label for="name" class="form-label">Inserisci il tuo nome</label>
+                                <label for="name" class="form-label">Inserisci il tuo nome <span
+                                        class="form-text text-danger fs-5">*</span></label>
                                 <input type="text" class="form-control" :class="{ 'is-invalid': errors.name }" id="name"
                                     v-model.trim="form.name" required>
                                 <span v-if="errors.name" class="invalid-feedback" role="alert">{{ errors.name }}</span>
@@ -296,20 +297,32 @@ export default {
                             </div>
                             <!-- Email -->
                             <div class="mb-4">
-                                <label for="email" class="form-label" required>Inserisci la tua email</label>
+                                <label for="email" class="form-label" required>Inserisci la tua email <span
+                                        class="form-text text-danger fs-5">*</span></label>
                                 <input type="email" class="form-control" :class="{ 'is-invalid': errors.email }" id="email"
                                     placeholder="nome@esempio.com" v-model.trim="form.email">
                                 <span v-if="errors.email" class="invalid-feedback" role="alert">{{ errors.email }}</span>
                             </div>
                             <!-- Content -->
-                            <div class="mb-4">
-                                <label for="exampleFormControlTextarea1" class="form-label">Contenuto del messaggio</label>
+                            <div class="mb-2">
+                                <label for="exampleFormControlTextarea1" class="form-label">Contenuto del messaggio <span
+                                        class="form-text text-danger fs-5">*</span></label>
                                 <textarea class="form-control" :class="{ 'is-invalid': errors.content }"
                                     placeholder="Scrivi un messaggio" id="floatingTextarea" style="height: 160px;"
                                     v-model.trim="form.content" required></textarea>
                                 <span v-if="errors.content" class="invalid-feedback" role="alert">{{ errors.content
                                 }}</span>
                             </div>
+                            <div class="dropdown mb-3">
+                                <button class="button-info" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <font-awesome-icon :icon="['fas', 'question']" size="xs" />
+                                </button>
+                                <div class="dropdown-menu text-danger  ">
+                                    I campi contrassegnati (*) sono obbligatori.
+                                </div>
+                            </div>
+
+                            <!-- Send form -->
                             <div class="d-flex align-items-center gap-4">
                                 <button type="submit" class="button button-light">Invia messaggio</button>
                                 <!-- Small loader -->
@@ -347,6 +360,18 @@ export default {
 
 <style lang="scss" scoped>
 @use '../assets/scss/vars' as *;
+
+// Info form message
+.button-info {
+    @include circle(15px);
+    @include flex;
+    border: 2px solid black;
+}
+
+.dropdown-menu {
+    @include font;
+    padding: 8px 5px;
+}
 
 //_______ HEADER
 header {
