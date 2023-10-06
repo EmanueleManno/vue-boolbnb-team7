@@ -147,7 +147,13 @@ export default {
 
                         <button class="dropdown-toggle d-flex d-md-none align-items-center" data-bs-toggle="dropdown">
                             <div class="user">
-                                <font-awesome-icon icon="user" />
+                                <div v-if="loading" class="spinner-border" role="status" style="width: 15px; height: 15px;">
+                                </div>
+
+                                <span v-else-if="user.length && !loading" id="admin-name">{{ getFirstLetter(user[0]['name'])
+                                }}</span>
+
+                                <font-awesome-icon v-else icon="user" />
                             </div>
                         </button>
 
