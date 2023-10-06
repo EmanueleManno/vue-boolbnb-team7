@@ -348,23 +348,6 @@ export default {
 <style lang="scss" scoped>
 @use '../assets/scss/vars' as *;
 
-// Alert message success
-.alert {
-    margin: 0;
-    padding: 12px;
-    border-radius: 20px;
-}
-
-.button-close {
-    padding-left: 10px;
-}
-
-// Small loader
-.spinner-border {
-    @include circle(40px);
-    color: $brand-color;
-}
-
 //_______ HEADER
 header {
     padding: 24px 0;
@@ -511,6 +494,24 @@ ul {
 #message-form {
     padding: 24px 0;
 }
+
+// Alert messages
+.alert {
+    margin: 0;
+    padding: 12px;
+    border-radius: 20px;
+}
+
+.button-close {
+    padding-left: 10px;
+}
+
+// Small loader
+.spinner-border {
+    @include circle(40px);
+    color: $brand-color;
+}
+
 
 // MEDIA QUERY
 @media (min-width: 576px) {
