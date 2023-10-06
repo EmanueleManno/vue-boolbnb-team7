@@ -361,18 +361,6 @@ export default {
 <style lang="scss" scoped>
 @use '../assets/scss/vars' as *;
 
-// Info form message
-.button-info {
-    @include circle(15px);
-    @include flex;
-    border: 2px solid black;
-}
-
-.dropdown-menu {
-    @include font;
-    padding: 8px 5px;
-}
-
 //_______ HEADER
 header {
     padding: 24px 0;
@@ -537,6 +525,17 @@ ul {
     color: $brand-color;
 }
 
+// Info form message
+.button-info {
+    @include circle(15px);
+    @include flex;
+    border: 2px solid black;
+}
+
+.dropdown-menu {
+    @include font;
+    padding: 8px 5px;
+}
 
 // MEDIA QUERY
 @media (min-width: 576px) {
