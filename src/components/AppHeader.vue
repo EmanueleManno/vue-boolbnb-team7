@@ -13,6 +13,7 @@ export default {
             locations: [],
             timeout: null,
             store: store,
+            address: null,
             lat: null,
             lon: null,
             loading: true
@@ -34,12 +35,13 @@ export default {
         },
 
         // Go to Filter Page
-        goToFilterPage(router, lat, lon) {
-            router.push({ name: 'search', query: { lat, lon } })
+        goToFilterPage(router, address, lat, lon) {
+            router.push({ name: 'search', query: { address, lat, lon } })
         },
 
         checkIfBlank() {
             if (this.searchedText === '') {
+                this.address = '';
                 this.lat = '';
                 this.lon = '';
             }
@@ -64,13 +66,13 @@ export default {
         },
 
         // Get latitude, longitude and value
-        selectAddress(value, lat, lon, router) {
+        selectAddress(value, address, lat, lon, router) {
             this.searchedText = value;
+            this.address = address;
             this.lat = lat;
             this.lon = lon;
-            if (this.searchedText !== '') {
-            }
-            this.goToFilterPage(router, lat, lon)
+
+            this.goToFilterPage(router, address, lat, lon)
         }
     },
 
@@ -98,7 +100,7 @@ export default {
                 <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
 
                     <!-- Address Search Form -->
-                    <form @submit.prevent="goToFilterPage($router, lat, lon)" class="search-bar">
+                    <form @submit.prevent="goToFilterPage($router, address, lat, lon)" class="search-bar">
 
                         <input v-model.trim="searchedText" type="text" class="form-control" placeholder="Inserisci un luogo"
                             @keyup="searchLocation">
@@ -116,7 +118,7 @@ export default {
                     <div class="filter-modal" :class="{ 'hide': !store.show }">
                         <ul>
                             <li v-for="location in this.locations"
-                                @click="selectAddress(`${location.address.freeformAddress} ${location.address.countrySubdivision}`, location.position.lat, location.position.lon, $router)">
+                                @click="selectAddress(`${location.address.freeformAddress} ${location.address.countrySubdivision}`, location.address.freeformAddress, location.position.lat, location.position.lon, $router)">
 
                                 <div class="searched-result">
                                     <div class="location-dot"><font-awesome-icon :icon="['fas', 'location-dot']" /></div>
