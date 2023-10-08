@@ -168,10 +168,18 @@ export default {
                                 <p class="fw-bold mb-2">Servizi</p>
                                 <div class="row">
                                     <div v-for="service in servicesList" :key="service.id" class="col-6 form-check">
+
                                         <input v-model.trim="filters['services[]']" class="form-check-input" type="checkbox"
                                             :id="service.id" :value="service.id">
-                                        <label class="form-label d-block" :for="service.id">{{ service.name
-                                        }}</label>
+
+                                        <label class="form-label d-flex align-items-center gap-1" :for="service.id">
+                                            <div class="service-icon">
+                                                <img :src="`../src/assets/img/service/${service.image}`"
+                                                    :alt="service.name">
+                                            </div>
+                                            {{ service.name }}
+                                        </label>
+
                                     </div>
                                 </div>
                             </div>
@@ -195,4 +203,17 @@ export default {
 </template>
 
 
-<style></style>
+<style lang="scss" scoped>
+@use '../../assets/scss/vars' as *;
+
+.service-icon {
+    @include square(30px);
+    overflow: hidden;
+
+    img {
+        @include max-size;
+        object-fit: contain;
+        filter: brightness(0) saturate(100%);
+    }
+}
+</style>
