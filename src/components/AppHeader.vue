@@ -2,7 +2,6 @@
 import axios from 'axios';
 import apiClient from '../js/api';
 import { store } from '../js/store.js';
-import { RouterLink } from 'vue-router';
 const user_endpoint = 'http://localhost:8000/api/user';
 
 
@@ -14,39 +13,45 @@ export default {
             locations: [],
             timeout: null,
             store: store,
+            address: null,
             lat: null,
             lon: null,
             loading: true
         };
     },
     methods: {
-        // Get user deatils
+        // Get user details
         fetchUser() {
             axios.get(user_endpoint).then(res => { this.user = res.data; this.loading = false });
         },
+
         // Get First letter of a string
         getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
+
+
         searchLocation() {
             clearTimeout(this.timeout);
             this.timeout = setTimeout(this.findLocation, 500);
         },
 
         // Go to Filter Page
-        goToFilterPage(router, lat, lon) {
-            router.push({ name: 'search', query: { lat, lon } })
+        goToFilterPage(router, address, lat, lon) {
+            router.push({ name: 'search', query: { address, lat, lon } })
         },
 
         checkIfBlank() {
             if (this.searchedText === '') {
+                this.address = '';
                 this.lat = '';
                 this.lon = '';
             }
         },
+
         // Find the position
         findLocation() {
             if (this.searchedText !== '') {
                 this.store.show = true;
-                apiClient.get(`${encodeURIComponent(this.searchedText)}.json?limit=5`)
+                apiClient.get(`${encodeURIComponent(this.searchedText)}.json?limit=5&countrySet=IT`)
                     .then(response => {
                         this.locations = response.data.results;
                     })
@@ -59,20 +64,30 @@ export default {
                 this.store.show = false;
             }
         },
+
         // Get latitude, longitude and value
-        selectAddress(value, lat, lon, router) {
+        selectAddress(value, address, lat, lon, router) {
             this.searchedText = value;
+            this.address = address;
             this.lat = lat;
             this.lon = lon;
-            if (this.searchedText !== '') {
-            }
-            this.goToFilterPage(router, lat, lon)
+
+            this.goToFilterPage(router, address, lat, lon)
         }
     },
+
+    watch: {
+        '$route': {
+            handler(newRoute) {
+                if (newRoute.name !== 'search') this.searchedText = '';
+                else this.searchedText = this.$route.query.address ? this.$route.query.address : '';
+            }
+        }
+    },
+
     created() {
         this.fetchUser();
-    },
-    components: { RouterLink }
+    }
 }
 
 </script>
@@ -81,6 +96,7 @@ export default {
     <header class="sticky-top">
         <div class="container">
             <div class="row px-2 px-sm-0">
+
                 <!-- Left side -->
                 <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
                     <RouterLink :to="{ name: 'home' }" class="logo">
@@ -93,11 +109,15 @@ export default {
                 <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
 
                     <!-- Address Search Form -->
-                    <form @submit.prevent="goToFilterPage($router, lat, lon)" class="search-bar">
+                    <form @submit.prevent="goToFilterPage($router, address, lat, lon)" class="search-bar">
+
                         <input v-model.trim="searchedText" type="text" class="form-control" placeholder="Inserisci un luogo"
                             @keyup="searchLocation">
-                        <span v-if="searchedText.length" class="remove-text" @click="searchedText = ''"><font-awesome-icon
-                                :icon="['fas', 'x']" /></span>
+
+                        <span v-if="searchedText.length" class="remove-text" @click="searchedText = ''">
+                            <font-awesome-icon :icon="['fas', 'x']" />
+                        </span>
+
                         <button type="submit" class="input-icon" @click="checkIfBlank">
                             <font-awesome-icon icon="magnifying-glass" />
                         </button>
@@ -107,14 +127,17 @@ export default {
                     <div class="filter-modal" :class="{ 'hide': !store.show }">
                         <ul>
                             <li v-for="location in this.locations"
-                                @click="selectAddress((`${location.address.freeformAddress} ${location.address.countrySubdivision}`), (location.position.lat), (location.position.lon), ($router))">
+                                @click="selectAddress(`${location.address.freeformAddress} ${location.address.countrySubdivision}`, location.address.freeformAddress, location.position.lat, location.position.lon, $router)">
+
                                 <div class="searched-result">
                                     <div class="location-dot"><font-awesome-icon :icon="['fas', 'location-dot']" /></div>
                                     <span>{{ location.address.freeformAddress }}</span>
                                 </div>
+
                             </li>
                         </ul>
                     </div>
+
                 </div>
 
                 <!-- Right side -->
