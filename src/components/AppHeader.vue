@@ -76,6 +76,15 @@ export default {
         }
     },
 
+    watch: {
+        '$route': {
+            handler(newRoute) {
+                if (newRoute.name !== 'search') this.searchedText = '';
+                else this.searchedText = this.$route.query.address ? this.$route.query.address : '';
+            }
+        }
+    },
+
     created() {
         this.fetchUser();
     }
