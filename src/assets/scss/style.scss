@@ -66,6 +66,12 @@ hr {
     margin: 0;
 }
 
+.card-img:hover{
+    img{
+        transform: scale(1.05);
+    }
+}
+
 // ________Scrollbar
 ::-webkit-scrollbar {
     width: 2px;

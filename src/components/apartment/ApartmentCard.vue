@@ -39,15 +39,9 @@ export default {
                     :alt="apartment.title">
 
                 <!-- Placeholder -->
-                <img src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
+                <img v-else
+                    src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
                     alt="placeholder">
-
-                <!-- Distance -->
-                <div v-if="apartment.distance !== undefined" class="distance">
-                    <font-awesome-icon :icon="['fas', 'location-dot']" class="me-1" />
-                    {{ distance }}
-                </div>
-
             </div>
 
             <!-- Card Info -->
@@ -61,6 +55,13 @@ export default {
                 </div> -->
 
                 <h6 class="card-title">{{ apartment.title }}</h6>
+
+                <!-- Distance -->
+                <div v-if="apartment.distance !== undefined" class="distance">
+                    <font-awesome-icon :icon="['fas', 'location-dot']" class="me-1" />
+                    {{ distance }} dal centro
+                </div>
+
                 <div><b>{{ apartment.price }}€</b> a notte</div>
             </div>
 
@@ -85,6 +86,7 @@ export default {
 
     img {
         @include square(100%);
+        transition: all 0.3s;
         object-fit: cover;
     }
 

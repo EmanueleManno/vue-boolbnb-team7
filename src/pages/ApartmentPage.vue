@@ -229,7 +229,7 @@ export default {
                                 </li>
                             </ul>
                             <div class="services">
-                                <h2>Scopri i servizi non inclusi</h2>
+                                <h2>Scopri tutti i servizi</h2>
                                 <div>
                                     <!-- Modal Button -->
                                     <button type="button" class="services-button button button-light" data-bs-toggle="modal"
