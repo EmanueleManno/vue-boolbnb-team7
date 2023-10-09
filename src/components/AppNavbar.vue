@@ -8,7 +8,7 @@ const endpoint = 'http://localhost:8000/api/categories';
 
 export default {
     components: { SearchModal },
-    data: () => ({ categories: [], store:store }),
+    data: () => ({ categories: [], store: store }),
     methods: {
         fetchCategories() {
             axios.get(endpoint).then(res => { this.categories = res.data })
@@ -18,7 +18,7 @@ export default {
         this.fetchCategories();
     },
     computed: {
-        filterNumber(){
+        filterNumber() {
 
             return
         }
@@ -41,7 +41,8 @@ export default {
 
                 <!-- Advanced Filters -->
                 <div class="col-2 d-flex align-items-center justify-content-end">
-                    <button class="filter" data-bs-toggle="modal" data-bs-target="#searchModal" :class="{ 'has-filter': store.filters > 0 }">
+                    <button class="filter" data-bs-toggle="modal" data-bs-target="#searchModal"
+                        :class="{ 'has-filter': store.filters > 0 }">
                         <font-awesome-icon icon="sliders" />
                         <span v-if="store.filters > 0" class="filter-number">{{ store.filters }}</span>
                         <span class="d-none d-md-inline">Filtri</span>
@@ -120,13 +121,14 @@ export default {
         position: relative;
 
         .filter-number {
+            @include circle(20px);
+            @include flex();
             position: absolute;
-            top: -10px;
-            left: 90%;
-            padding: 2px 7px 2px 7px;
-            background-color: white;
-            border-radius: 50%;
-            border: 1px solid black;
+            top: -8px;
+            left: 65%;
+            background-color: black;
+            font-size: 10px;
+            color: white;
         }
     }
 
@@ -142,6 +144,10 @@ export default {
             gap: 10px;
             border-radius: 10px;
             padding: 15px 12px;
+
+            .filter-number {
+                left: 85%;
+            }
         }
     }
 }
