@@ -4,26 +4,42 @@ import AppLoader from '../components/AppLoader.vue';
 import ApartmentsList from '../components/apartment/ApartmentsList.vue';
 
 import axios from 'axios';
-const endpoint = 'http://127.0.0.1:8000/api/apartments'
+const baseUri = 'http://127.0.0.1:8000/api/apartments'
 
 export default {
     components: { AppNavbar, ApartmentsList, AppLoader },
-    data: () => ({ apartments: [], isLoading: true }),
+    data: () => ({ apartmentsPromoted: [], apartmentsRandom: [], isLoading: true }),
     methods: {
-        fetchApartments() {
-            axios.get(endpoint).then(res => { this.apartments = res.data; this.isLoading = false; });
+        fetchApartments(endpoint = '', successCallback) {
+            axios.get(baseUri + endpoint)
+                .then(successCallback)
+                .catch(err => {
+                    console.error(err);
+                })
+                .then(() => {
+                    this.isLoading = false
+                });
         }
     },
+
     created() {
-        this.fetchApartments();
+        // Fetch Promoted List
+        this.fetchApartments('/promoted', res => { this.apartmentsPromoted = res.data; });
+
+        // Fetch Random List
+        this.fetchApartments('/random', res => { this.apartmentsRandom = res.data; });
     }
 }
 </script>
 
 <template>
     <main>
-        <!-- <AppNavbar /> -->
-        <ApartmentsList v-if="!isLoading" :apartments="apartments" />
+
+        <!-- Promoted Appartments -->
+        <ApartmentsList v-if="!isLoading" :apartments="apartmentsPromoted" title="In Evidenza" />
+
+        <!-- Random Appartments -->
+        <ApartmentsList v-if="!isLoading" :apartments="apartmentsRandom" title="Altri BoolBnB" />
     </main>
     <!-- Loader -->
     <AppLoader :is-loading="isLoading" />
