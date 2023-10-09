@@ -1,4 +1,6 @@
 <script>
+import AppNavbar from './AppNavbar.vue';
+
 import axios from 'axios';
 import apiClient from '../js/api';
 import { store } from '../js/store.js';
@@ -6,6 +8,7 @@ const user_endpoint = 'http://localhost:8000/api/user';
 
 
 export default {
+    components: { AppNavbar },
     data() {
         return {
             user: '',
@@ -106,121 +109,134 @@ export default {
 
 <template>
     <header class="sticky-top">
-        <div class="container">
-            <div class="row px-2 px-sm-0">
 
-                <!-- Left side -->
-                <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
-                    <RouterLink :to="{ name: 'home' }" class="logo">
-                        <img src="http://127.0.0.1:8000/img/logo.png" alt="logo">
-                        <h1 class="d-none d-xl-inline-block">boolbnb</h1>
-                    </RouterLink>
-                </div>
+        <!-- Top Header -->
+        <div>
+            <div class="container">
+                <div class="row px-2 px-sm-0">
 
-                <!--!! Search bar -->
-                <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
-
-                    <!-- Address Search Form -->
-                    <form @submit.prevent="goToFilterPage($router, address, lat, lon)" class="search-bar">
-
-                        <input v-model.trim="searchedText" type="text" class="form-control" placeholder="Inserisci un luogo"
-                            @keyup="searchLocation">
-
-                        <span v-if="searchedText.length" class="remove-text" @click="searchedText = ''">
-                            <font-awesome-icon :icon="['fas', 'x']" />
-                        </span>
-
-                        <button type="submit" class="input-icon" @click="checkIfBlank">
-                            <font-awesome-icon icon="magnifying-glass" />
-                        </button>
-                    </form>
-
-                    <!-- Address Modal -->
-                    <div class="filter-modal" :class="{ 'hide': !store.show }">
-                        <ul>
-                            <li v-for="location in this.locations"
-                                @click="selectAddress(`${location.address.freeformAddress} ${location.address.countrySubdivision}`, location.address.freeformAddress, location.position.lat, location.position.lon, $router)">
-
-                                <div class="searched-result">
-                                    <div class="location-dot"><font-awesome-icon :icon="['fas', 'location-dot']" /></div>
-                                    <span>{{ location.address.freeformAddress }}</span>
-                                </div>
-
-                            </li>
-                        </ul>
+                    <!-- Left side -->
+                    <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
+                        <RouterLink :to="{ name: 'home' }" class="logo">
+                            <img src="http://127.0.0.1:8000/img/logo.png" alt="logo">
+                            <h1 class="d-none d-xl-inline-block">boolbnb</h1>
+                        </RouterLink>
                     </div>
 
-                </div>
+                    <!--!! Search bar -->
+                    <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
 
-                <!-- Right side -->
-                <div class="col-2 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
-                    <div class="d-none d-md-flex">
-                        <a href="http://127.0.0.1:8000/admin/apartments/create" class="button-light">Apri un Boolbnb</a>
+                        <!-- Address Search Form -->
+                        <form @submit.prevent="goToFilterPage($router, address, lat, lon)" class="search-bar">
 
-                        <button class="button-light"><font-awesome-icon icon="globe" /></button>
+                            <input v-model.trim="searchedText" type="text" class="form-control"
+                                placeholder="Inserisci un luogo" @keyup="searchLocation">
+
+                            <span v-if="searchedText.length" class="remove-text" @click="searchedText = ''">
+                                <font-awesome-icon :icon="['fas', 'x']" />
+                            </span>
+
+                            <button type="submit" class="input-icon" @click="checkIfBlank">
+                                <font-awesome-icon icon="magnifying-glass" />
+                            </button>
+                        </form>
+
+                        <!-- Address Modal -->
+                        <div class="filter-modal" :class="{ 'hide': !store.show }">
+                            <ul>
+                                <li v-for="location in this.locations"
+                                    @click="selectAddress(`${location.address.freeformAddress} ${location.address.countrySubdivision}`, location.address.freeformAddress, location.position.lat, location.position.lon, $router)">
+
+                                    <div class="searched-result">
+                                        <div class="location-dot"><font-awesome-icon :icon="['fas', 'location-dot']" />
+                                        </div>
+                                        <span>{{ location.address.freeformAddress }}</span>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
 
-                    <!-- Dropdown -->
-                    <div class="login-menu dropdown">
-                        <button class="dropdown-toggle d-none d-md-flex align-items-center" data-bs-toggle="dropdown">
-                            <font-awesome-icon icon="bars" />
+                    <!-- Right side -->
+                    <div class="col-2 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
+                        <div class="d-none d-md-flex">
+                            <a href="http://127.0.0.1:8000/admin/apartments/create" class="button-light">Apri un Boolbnb</a>
 
-                            <div v-if="loading" class="user ms-2">
-                                <div class="spinner-border" role="status" style="width: 15px; height: 15px;">
-                                </div>
-                            </div>
+                            <button class="button-light"><font-awesome-icon icon="globe" /></button>
+                        </div>
 
-                            <div v-else-if="user.length && !loading" class="user ms-2">
-                                <span id="admin-name">{{ getFirstLetter(user[0]['name']) }}</span>
-                            </div>
+                        <!-- Dropdown -->
+                        <div class="login-menu dropdown">
+                            <button class="dropdown-toggle d-none d-md-flex align-items-center" data-bs-toggle="dropdown">
+                                <font-awesome-icon icon="bars" />
 
-                            <div v-else class="user ms-2">
-                                <font-awesome-icon icon="user" />
-                            </div>
-
-                        </button>
-
-                        <button class="dropdown-toggle d-flex d-md-none align-items-center" data-bs-toggle="dropdown">
-                            <div class="user">
-                                <div v-if="loading" class="spinner-border" role="status" style="width: 15px; height: 15px;">
+                                <div v-if="loading" class="user ms-2">
+                                    <div class="spinner-border" role="status" style="width: 15px; height: 15px;">
+                                    </div>
                                 </div>
 
-                                <span v-else-if="user.length && !loading" id="admin-name">{{ getFirstLetter(user[0]['name'])
-                                }}</span>
+                                <div v-else-if="user.length && !loading" class="user ms-2">
+                                    <span id="admin-name">{{ getFirstLetter(user[0]['name']) }}</span>
+                                </div>
 
-                                <font-awesome-icon v-else icon="user" />
-                            </div>
-                        </button>
+                                <div v-else class="user ms-2">
+                                    <font-awesome-icon icon="user" />
+                                </div>
 
-                        <ul v-if="user.length" class="dropdown-menu">
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments">I miei
-                                    Boolbnb</a>
-                            </li>
-                            <li><a class="dropdown-item " href="http://127.0.0.1:8000/admin">Il mio Profilo</a></li>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/login">Messaggi</a></li>
-                            <li><a class="dropdown-item disabled" href="#">Notifiche</a></li>
-                            <hr>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments/create">Apri un
-                                    Boolbnb</a>
-                            </li>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/profile">Account</a></li>
-                            <hr>
-                            <li>
-                                <RouterLink class="dropdown-item" :to="{ name: 'home' }">Torna alla Home</RouterLink>
-                            </li>
-                        </ul>
+                            </button>
 
-                        <ul v-else class="dropdown-menu">
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/login"><b>Accedi</b></a></li>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">Registrati</a></li>
-                            <li>
-                                <RouterLink class="dropdown-item" :to="{ name: 'home' }">Torna alla Home</RouterLink>
-                            </li>
-                        </ul>
+                            <button class="dropdown-toggle d-flex d-md-none align-items-center" data-bs-toggle="dropdown">
+                                <div class="user">
+                                    <div v-if="loading" class="spinner-border" role="status"
+                                        style="width: 15px; height: 15px;">
+                                    </div>
+
+                                    <span v-else-if="user.length && !loading" id="admin-name">{{
+                                        getFirstLetter(user[0]['name'])
+                                    }}</span>
+
+                                    <font-awesome-icon v-else icon="user" />
+                                </div>
+                            </button>
+
+                            <ul v-if="user.length" class="dropdown-menu">
+                                <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments">I miei
+                                        Boolbnb</a>
+                                </li>
+                                <li><a class="dropdown-item " href="http://127.0.0.1:8000/admin">Il mio Profilo</a></li>
+                                <li><a class="dropdown-item" href="http://127.0.0.1:8000/login">Messaggi</a></li>
+                                <li><a class="dropdown-item disabled" href="#">Notifiche</a></li>
+                                <hr>
+                                <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments/create">Apri un
+                                        Boolbnb</a>
+                                </li>
+                                <li><a class="dropdown-item" href="http://127.0.0.1:8000/profile">Account</a></li>
+                                <hr>
+                                <li>
+                                    <RouterLink class="dropdown-item" :to="{ name: 'home' }">Torna alla Home</RouterLink>
+                                </li>
+                            </ul>
+
+                            <ul v-else class="dropdown-menu">
+                                <li><a class="dropdown-item" href="http://127.0.0.1:8000/login"><b>Accedi</b></a></li>
+                                <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">Registrati</a></li>
+                                <li>
+                                    <RouterLink class="dropdown-item" :to="{ name: 'home' }">Torna alla Home</RouterLink>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Bottom Header -->
+        <div v-if="$route.name === 'search'">
+            <AppNavbar />
+        </div>
+
     </header>
 </template>
 
@@ -230,8 +246,11 @@ export default {
 
 //__________________ HEADER
 header {
-    border-bottom: 1px solid $light-grey;
     background-color: white;
+
+    >div:first-child {
+        border-bottom: 1px solid $light-grey;
+    }
 
     .row {
         @include flex($wrap: nowrap);
