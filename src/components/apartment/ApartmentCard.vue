@@ -44,7 +44,7 @@ export default {
                     alt="placeholder">
 
                 <!-- Promoted Badge -->
-                <div v-if="apartment.promotions_max_apartment_promotionend_date" class="promoted-badge text-bg-warning">
+                <div v-if="apartment.promotions_max_apartment_promotionend_date" class="promoted-badge">
                     Consigliato
                 </div>
 
@@ -99,12 +99,18 @@ export default {
     // Promoted Badge
     .promoted-badge {
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        padding: 0.75rem 0.75rem 1rem;
+        left: -40px;
+        top: 18px;
+        padding: 0.5rem;
+        width: 150px;
 
+        text-align: center;
         font-weight: bold;
+        color: #fff;
+        background-color: $brand-color;
+
+        transform: rotate(315deg);
+        box-shadow: 0 0 8px 4px rgba($color: #000, $alpha: 0.1);
     }
 }
 
