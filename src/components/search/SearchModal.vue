@@ -175,7 +175,7 @@ export default {
 
                                         <label class="form-label d-flex align-items-center gap-1" :for="service.id">
                                             <div class="service-icon">
-                                                <img :src="`../src/assets/img/service/${service.image}`"
+                                                <img :src="`http://127.0.0.1:8000/img/service/${service.icon}`"
                                                     :alt="service.name">
                                             </div>
                                             {{ service.name }}

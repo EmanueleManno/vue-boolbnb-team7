@@ -65,7 +65,7 @@ export default {
                         <div class="service-icon"
                             :class="{ 'selected': filteredServiceIds.includes(service.id.toString()) }"
                             :title="service.name">
-                            <img :src="`../src/assets/img/service/${service.image}`" :alt="service.name">
+                            <img :src="`http://127.0.0.1:8000/img/service/${service.icon}`" :alt="service.name">
                         </div>
                     </li>
                 </ul>
