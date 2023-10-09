@@ -1,13 +1,10 @@
 <script>
-import SearchModal from './search/SearchModal.vue';
 import { store } from '../js/store.js';
-
 import axios from 'axios';
 const endpoint = 'http://localhost:8000/api/categories';
 
 
 export default {
-    components: { SearchModal },
     data: () => ({ categories: [], store: store }),
     methods: {
         fetchCategories() {
@@ -47,9 +44,6 @@ export default {
                         <span v-if="store.filters > 0" class="filter-number">{{ store.filters }}</span>
                         <span class="d-none d-md-inline">Filtri</span>
                     </button>
-
-                    <!-- Search Modal -->
-                    <SearchModal />
                 </div>
 
             </div>
