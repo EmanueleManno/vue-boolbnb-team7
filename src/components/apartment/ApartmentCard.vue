@@ -50,17 +50,22 @@ export default {
 
             <!-- Card Info -->
             <div class="card-content">
+                <!-- Title -->
+                <h6>{{ apartment.title }}</h6>
 
-                <h6 class="card-title">{{ apartment.title }}</h6>
+                <!-- Address -->
+                <div class="address">
+                    {{ apartment.address }}
+                </div>
 
                 <!-- Distance -->
-                <div v-if="apartment.distance !== undefined" class="mb-2">
+                <div v-if="apartment.distance !== undefined">
                     <font-awesome-icon :icon="['fas', 'location-dot']" class="me-1" />
                     {{ distance }} dal centro
                 </div>
 
                 <!-- Services -->
-                <ul v-if="apartment.distance !== undefined" class="d-flex flex-wrap gap-1 mb-2">
+                <ul v-if="apartment.distance !== undefined" class="d-flex flex-wrap gap-1">
                     <li v-for="service in apartment.services" :key="service.id">
                         <div class="service-icon"
                             :class="{ 'selected': filteredServiceIds.includes(service.id.toString()) }"
@@ -117,6 +122,8 @@ export default {
 }
 
 .card-content {
+    @include flex(center, start, column, $gap: 7px);
+
     padding: 10px 0;
 
     .service-icon {
@@ -142,11 +149,19 @@ export default {
     }
 }
 
+// Apartment address
+.address {
+    color: #717171;
+    font-size: 17px;
+    font-weight: 300;
+}
+
+
 // Media Query
 // Square images
 @media (min-width: 576px) {
     .card-img {
-        max-height: 514px;
+        max-height: 234px;
     }
 }
 
