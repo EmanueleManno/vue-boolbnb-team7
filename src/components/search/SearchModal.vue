@@ -51,6 +51,7 @@ export default {
 
             // Create query params
             const query = {
+                address: this.$route?.query.address,
                 lat: this.$route?.query.lat,
                 lon: this.$route?.query.lon,
                 rooms: this.filters.rooms,
