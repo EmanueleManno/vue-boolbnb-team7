@@ -9,6 +9,7 @@ const user_endpoint = 'http://localhost:8000/api/user';
 
 export default {
     components: { AppNavbar },
+
     data() {
         return {
             user: '',
@@ -22,6 +23,7 @@ export default {
             loading: true
         };
     },
+
     methods: {
         // Get user details
         fetchUser() {
@@ -117,13 +119,16 @@ export default {
 
                     <!-- Left side -->
                     <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
+
+                        <!-- Logo -->
                         <RouterLink :to="{ name: 'home' }" class="logo">
                             <img src="http://127.0.0.1:8000/img/logo.png" alt="logo">
                             <h1 class="d-none d-xl-inline-block">boolbnb</h1>
                         </RouterLink>
+
                     </div>
 
-                    <!--!! Search bar -->
+                    <!-- Center -->
                     <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
 
                         <!-- Address Search Form -->
@@ -161,14 +166,20 @@ export default {
 
                     <!-- Right side -->
                     <div class="col-2 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
+
+                        <!-- Actions -->
                         <div class="d-none d-md-flex">
+                            <!-- Open BnB Button -->
                             <a href="http://127.0.0.1:8000/admin/apartments/create" class="button-light">Apri un Boolbnb</a>
 
+                            <!-- Globe Button -->
                             <button class="button-light"><font-awesome-icon icon="globe" /></button>
                         </div>
 
-                        <!-- Dropdown -->
+                        <!-- Login Dropdown -->
                         <div class="login-menu dropdown">
+
+                            <!-- Generic Menu Togle -->
                             <button class="dropdown-toggle d-none d-md-flex align-items-center" data-bs-toggle="dropdown">
                                 <font-awesome-icon icon="bars" />
 
@@ -187,6 +198,7 @@ export default {
 
                             </button>
 
+                            <!-- Logged Menu Toggle -->
                             <button class="dropdown-toggle d-flex d-md-none align-items-center" data-bs-toggle="dropdown">
                                 <div class="user">
                                     <div v-if="loading" class="spinner-border" role="status"
@@ -201,6 +213,7 @@ export default {
                                 </div>
                             </button>
 
+                            <!-- Account Menu -->
                             <ul v-if="user.length" class="dropdown-menu">
                                 <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments">I miei
                                         Boolbnb</a>
@@ -219,6 +232,7 @@ export default {
                                 </li>
                             </ul>
 
+                            <!-- Login Menu -->
                             <ul v-else class="dropdown-menu">
                                 <li><a class="dropdown-item" href="http://127.0.0.1:8000/login"><b>Accedi</b></a></li>
                                 <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">Registrati</a></li>
@@ -226,6 +240,7 @@ export default {
                                     <RouterLink class="dropdown-item" :to="{ name: 'home' }">Torna alla Home</RouterLink>
                                 </li>
                             </ul>
+
                         </div>
                     </div>
                 </div>
