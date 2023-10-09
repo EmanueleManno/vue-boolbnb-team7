@@ -13,16 +13,14 @@ export default {
             return Math.ceil(parseInt(this.apartment.distance) / 1000) + ' Km';
         },
 
+
         /**
-         * Get Services matched by the filters
+         * Get the list of services filters applyed
          */
-        // matchedServices() {
-        //     if (!this.$route.query['services[]']) return [];
-
-        //     const filteredServiceIds = this.$route.query['services[]'];
-
-        //     return this.apartment.services.filter(({ id }) => filteredServiceIds.includes(id.toString()));
-        // }
+        filteredServiceIds() {
+            if (!this.$route.query['services[]']) return [];
+            return this.$route.query['services[]'];
+        }
     }
 };
 </script>
@@ -42,25 +40,35 @@ export default {
                 <img v-else
                     src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
                     alt="placeholder">
+
+                <!-- Promoted Badge -->
+                <div v-if="apartment.promotions_max_apartment_promotionend_date" class="promoted-badge">
+                    Consigliato
+                </div>
+
             </div>
 
             <!-- Card Info -->
             <div class="card-content">
 
-                <!-- Matched Services -->
-                <!-- <div v-if="apartment.distance" class="d-flex flex-wrap gap-2 mb-2">
-                    <div v-for="service in matchedServices" :key="service.id" class="service-icon">
-                        <img :src="`../src/assets/img/service/${service.image}`" :alt="service.name">
-                    </div>
-                </div> -->
-
                 <h6 class="card-title">{{ apartment.title }}</h6>
 
                 <!-- Distance -->
-                <div v-if="apartment.distance !== undefined" class="distance">
+                <div v-if="apartment.distance !== undefined" class="mb-2">
                     <font-awesome-icon :icon="['fas', 'location-dot']" class="me-1" />
                     {{ distance }} dal centro
                 </div>
+
+                <!-- Services -->
+                <ul v-if="apartment.distance !== undefined" class="d-flex flex-wrap gap-1 mb-2">
+                    <li v-for="service in apartment.services" :key="service.id">
+                        <div class="service-icon"
+                            :class="{ 'selected': filteredServiceIds.includes(service.id.toString()) }"
+                            :title="service.name">
+                            <img :src="`../src/assets/img/service/${service.image}`" :alt="service.name">
+                        </div>
+                    </li>
+                </ul>
 
                 <div><b>{{ apartment.price }}€</b> a notte</div>
             </div>
@@ -90,34 +98,48 @@ export default {
         object-fit: cover;
     }
 
-    // Apartment Distance
-    .distance {
+    // Promoted Badge
+    .promoted-badge {
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        padding: 0.75rem 0.75rem 1rem;
+        left: -40px;
+        top: 18px;
+        padding: 0.5rem;
+        width: 150px;
 
-        color: #fff;
-        background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 65%, rgba(0, 0, 0, 0) 100%);
+        text-align: center;
         font-weight: bold;
-        font-size: 16px;
+        color: #fff;
+        background-color: $brand-color;
+
+        transform: rotate(315deg);
+        box-shadow: 0 0 8px 4px rgba($color: #000, $alpha: 0.1);
     }
 }
 
 .card-content {
     padding: 10px 0;
 
-    // .service-icon {
-    //     @include square(25px);
-    //     overflow: hidden;
+    .service-icon {
+        @include square(20px);
+        overflow: hidden;
 
-    //     img {
-    //         @include max-size;
-    //         object-fit: contain;
-    //         filter: brightness(0) saturate(100%);
-    //     }
-    // }
+        img {
+            @include max-size;
+            object-fit: contain;
+            filter: contrast(0.1);
+        }
+
+        &.selected {
+            @include square(25px);
+
+            border: 1px solid $brand-color;
+            border-radius: 0.25rem;
+
+            img {
+                filter: contrast(1);
+            }
+        }
+    }
 }
 
 // Media Query

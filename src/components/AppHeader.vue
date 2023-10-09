@@ -36,7 +36,19 @@ export default {
 
         // Go to Filter Page
         goToFilterPage(router, address, lat, lon) {
-            router.push({ name: 'search', query: { address, lat, lon } })
+
+            // Create query params
+            const query = {
+                address,
+                lat,
+                lon,
+                rooms: this.$route?.query.rooms,
+                beds: this.$route?.query.beds,
+                radius: this.$route?.query.radius,
+                'services[]': this.$route?.query['services[]'],
+            }
+
+            router.push({ name: 'search', query })
         },
 
         checkIfBlank() {
