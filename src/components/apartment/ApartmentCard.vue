@@ -11,7 +11,7 @@ export default {
         distance() {
             if (!this.apartment.distance === undefined) return '';
             return Math.ceil(parseInt(this.apartment.distance) / 1000) + ' Km';
-        },
+        }
 
         /**
          * Get Services matched by the filters
@@ -42,6 +42,12 @@ export default {
                 <img v-else
                     src="https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM="
                     alt="placeholder">
+
+                <!-- Promoted Badge -->
+                <div v-if="apartment.promotions_max_apartment_promotionend_date" class="promoted-badge text-bg-warning">
+                    Consigliato
+                </div>
+
             </div>
 
             <!-- Card Info -->
@@ -90,18 +96,15 @@ export default {
         object-fit: cover;
     }
 
-    // Apartment Distance
-    .distance {
+    // Promoted Badge
+    .promoted-badge {
         position: absolute;
         left: 0;
         right: 0;
         top: 0;
         padding: 0.75rem 0.75rem 1rem;
 
-        color: #fff;
-        background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 65%, rgba(0, 0, 0, 0) 100%);
         font-weight: bold;
-        font-size: 16px;
     }
 }
 
