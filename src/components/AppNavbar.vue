@@ -43,6 +43,7 @@ export default {
                 <div class="col-2 d-flex align-items-center justify-content-end">
                     <button class="filter" data-bs-toggle="modal" data-bs-target="#searchModal" :class="{ 'has-filter': store.filters > 0 }">
                         <font-awesome-icon icon="sliders" />
+                        <span v-if="store.filters > 0" class="filter-number">{{ store.filters }}</span>
                         <span class="d-none d-md-inline">Filtri</span>
                     </button>
 
@@ -116,7 +117,20 @@ export default {
         @include flex;
         @include circle(40px);
         border: 1px solid $light-grey;
+        position: relative;
+
+        .filter-number {
+            position: absolute;
+            top: -10px;
+            left: 90%;
+            padding: 2px 7px 2px 7px;
+            background-color: white;
+            border-radius: 50%;
+            border: 1px solid black;
+        }
     }
+
+
 
     .has-filter {
         border: 2px solid black;
