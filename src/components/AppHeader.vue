@@ -112,7 +112,7 @@ export default {
                 <!-- Left side -->
                 <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
                     <RouterLink :to="{ name: 'home' }" class="logo">
-                        <img src="src/assets/img/logo.png" alt="logo">
+                        <img src="http://127.0.0.1:8000/img/logo.png" alt="logo">
                         <h1 class="d-none d-xl-inline-block">boolbnb</h1>
                     </RouterLink>
                 </div>
