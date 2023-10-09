@@ -224,7 +224,8 @@ export default {
                         <div>
                             <ul class="service-list">
                                 <li v-for="service in apartment.services">
-                                    <div><img :src="`../src/assets/img/service/${service.image}`" :alt="service.name"></div>
+                                    <div><img :src="`http://127.0.0.1:8000/img/service/${service.icon}`"
+                                            :alt="service.name"></div>
                                     <span>{{ service.name }}</span>
                                 </li>
                             </ul>
@@ -238,7 +239,7 @@ export default {
                                 </div>
                             </div>
 
-                            <!-- Modal -->
+                            <!-- Service modal -->
                             <div class="modal fade modal-lg" id="serviceModal" tabindex="-1"
                                 aria-labelledby="serviceModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -251,7 +252,7 @@ export default {
                                             <h3 class="mb-3">Cosa troverai</h3>
                                             <ul class="service-list">
                                                 <li v-for="service in apartment.services">
-                                                    <div><img :src="`../src/assets/img/service/${service.image}`"
+                                                    <div><img :src="`http://127.0.0.1:8000/img/service/${service.icon}`"
                                                             :alt="service.name"></div>
                                                     <span>{{ service.name }}</span>
                                                 </li>
@@ -259,7 +260,7 @@ export default {
                                             <h3 class="mt-5 mb-3">Non incluso</h3>
                                             <ul class="service-list">
                                                 <li v-for="service in serviceNotAvailable()">
-                                                    <div><img :src="`../src/assets/img/service/${service.image}`"
+                                                    <div><img :src="`http://127.0.0.1:8000/img/service/${service.icon}`"
                                                             :alt="service.name"></div>
                                                     <span class="text-decoration-line-through">{{ service.name }}</span>
                                                 </li>
