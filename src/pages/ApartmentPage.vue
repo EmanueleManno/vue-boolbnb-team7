@@ -159,7 +159,7 @@ export default {
                 <div class="container">
                     <div class="d-flex align-items-center justify-content-between">
                         <h2>{{ apartment.title }}</h2>
-                        <div class="go-back">
+                        <div class="circle-button">
                             <RouterLink :to="{ name: 'home' }"><font-awesome-icon :icon="['fas', 'chevron-left']" />
                             </RouterLink>
                         </div>
@@ -250,7 +250,7 @@ export default {
                                         </div>
                                         <div class="modal-body">
                                             <h3 class="mb-3">Cosa troverai</h3>
-                                            <ul class="service-list">
+                                            <ul class="service-list modal-services">
                                                 <li v-for="service in apartment.services">
                                                     <div><img :src="`http://127.0.0.1:8000/img/service/${service.icon}`"
                                                             :alt="service.name"></div>
@@ -258,7 +258,7 @@ export default {
                                                 </li>
                                             </ul>
                                             <h3 class="mt-5 mb-3">Non incluso</h3>
-                                            <ul class="service-list">
+                                            <ul class="service-list modal-services">
                                                 <li v-for="service in serviceNotAvailable()">
                                                     <div><img :src="`http://127.0.0.1:8000/img/service/${service.icon}`"
                                                             :alt="service.name"></div>
@@ -367,20 +367,6 @@ header {
     padding: 24px 0;
 }
 
-.go-back {
-    @include circle(40px);
-    @include flex;
-    flex: 0 0 40px;
-    margin-left: 5px;
-    border: 1px solid $light-grey;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1);
-
-    &:hover {
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-    }
-}
-
 // Apartment image
 .slider {
     display: flex;
@@ -449,8 +435,8 @@ ul {
 
 // Services
 .service-list {
-    @include flex(stretch, stretch, column, wrap, 20px);
-    max-height: 400px;
+    @include flex(stretch, stretch, column, wrap, 10px);
+    max-height: 360px;
     flex-grow: 1;
 
     li {
@@ -460,15 +446,25 @@ ul {
         padding: 10px;
 
         div {
-            @include square(30px);
+            @include square(20px);
             overflow: hidden;
 
             img {
                 @include max-size;
                 object-fit: contain;
                 filter: brightness(0) saturate(100%);
+                display: block
             }
         }
+    }
+}
+
+.service-list.modal-services {
+    @include flex(stretch, stretch, column, wrap, 20px);
+    max-height: 400px;
+
+    li div {
+        @include square(30px);
     }
 }
 
