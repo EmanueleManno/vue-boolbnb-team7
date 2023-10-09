@@ -1,14 +1,16 @@
 <script>
-import axios from 'axios';
+import AppNavbar from './AppNavbar.vue';
+import LoginMenu from './header/LoginMenu.vue';
+
 import apiClient from '../js/api';
 import { store } from '../js/store.js';
-const user_endpoint = 'http://localhost:8000/api/user';
 
 
 export default {
+    components: { AppNavbar, LoginMenu },
+
     data() {
         return {
-            user: '',
             searchedText: '',
             locations: [],
             timeout: null,
@@ -16,18 +18,10 @@ export default {
             address: null,
             lat: null,
             lon: null,
-            loading: true
         };
     },
+
     methods: {
-        // Get user details
-        fetchUser() {
-            axios.get(user_endpoint).then(res => { this.user = res.data; this.loading = false });
-        },
-
-        // Get First letter of a string
-        getFirstLetter: (word) => (word.substring(0, 1).toUpperCase()),
-
 
         searchLocation() {
             clearTimeout(this.timeout);
@@ -95,10 +89,6 @@ export default {
                 else this.searchedText = this.$route.query.address ? this.$route.query.address : '';
             }
         }
-    },
-
-    created() {
-        this.fetchUser();
     }
 }
 
@@ -106,121 +96,83 @@ export default {
 
 <template>
     <header class="sticky-top">
-        <div class="container">
-            <div class="row px-2 px-sm-0">
 
-                <!-- Left side -->
-                <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
-                    <RouterLink :to="{ name: 'home' }" class="logo">
-                        <img src="http://127.0.0.1:8000/img/logo.png" alt="logo">
-                        <h1 class="d-none d-xl-inline-block">boolbnb</h1>
-                    </RouterLink>
-                </div>
+        <!-- Top Header -->
+        <div>
+            <div class="container">
+                <div class="row px-2 px-sm-0">
 
-                <!--!! Search bar -->
-                <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
+                    <!-- Left side -->
+                    <div class="col-md-1 col-xl-4 d-none d-md-flex justify-content-start">
 
-                    <!-- Address Search Form -->
-                    <form @submit.prevent="goToFilterPage($router, address, lat, lon)" class="search-bar">
+                        <!-- Logo -->
+                        <RouterLink :to="{ name: 'home' }" class="logo">
+                            <img src="http://127.0.0.1:8000/img/logo.png" alt="logo">
+                            <h1 class="d-none d-xl-inline-block">boolbnb</h1>
+                        </RouterLink>
 
-                        <input v-model.trim="searchedText" type="text" class="form-control" placeholder="Inserisci un luogo"
-                            @keyup="searchLocation">
-
-                        <span v-if="searchedText.length" class="remove-text" @click="searchedText = ''">
-                            <font-awesome-icon :icon="['fas', 'x']" />
-                        </span>
-
-                        <button type="submit" class="input-icon" @click="checkIfBlank">
-                            <font-awesome-icon icon="magnifying-glass" />
-                        </button>
-                    </form>
-
-                    <!-- Address Modal -->
-                    <div class="filter-modal" :class="{ 'hide': !store.show }">
-                        <ul>
-                            <li v-for="location in this.locations"
-                                @click="selectAddress(`${location.address.freeformAddress} ${location.address.countrySubdivision}`, location.address.freeformAddress, location.position.lat, location.position.lon, $router)">
-
-                                <div class="searched-result">
-                                    <div class="location-dot"><font-awesome-icon :icon="['fas', 'location-dot']" /></div>
-                                    <span>{{ location.address.freeformAddress }}</span>
-                                </div>
-
-                            </li>
-                        </ul>
                     </div>
 
-                </div>
+                    <!-- Center -->
+                    <div class="col-10 col-md-6 col-xl-4 d-flex align-items-center searchbox">
 
-                <!-- Right side -->
-                <div class="col-2 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
-                    <div class="d-none d-md-flex">
-                        <a href="http://127.0.0.1:8000/admin/apartments/create" class="button-light">Apri un Boolbnb</a>
+                        <!-- Address Search Form -->
+                        <form @submit.prevent="goToFilterPage($router, address, lat, lon)" class="search-bar">
 
-                        <button class="button-light"><font-awesome-icon icon="globe" /></button>
+                            <input v-model.trim="searchedText" type="text" class="form-control"
+                                placeholder="Inserisci un luogo" @keyup="searchLocation">
+
+                            <span v-if="searchedText.length" class="remove-text" @click="searchedText = ''">
+                                <font-awesome-icon :icon="['fas', 'x']" />
+                            </span>
+
+                            <button type="submit" class="input-icon" @click="checkIfBlank">
+                                <font-awesome-icon icon="magnifying-glass" />
+                            </button>
+                        </form>
+
+                        <!-- Address Modal -->
+                        <div class="filter-modal" :class="{ 'hide': !store.show }">
+                            <ul>
+                                <li v-for="location in this.locations"
+                                    @click="selectAddress(`${location.address.freeformAddress} ${location.address.countrySubdivision}`, location.address.freeformAddress, location.position.lat, location.position.lon, $router)">
+
+                                    <div class="searched-result">
+                                        <div class="location-dot"><font-awesome-icon :icon="['fas', 'location-dot']" />
+                                        </div>
+                                        <span>{{ location.address.freeformAddress }}</span>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
 
-                    <!-- Dropdown -->
-                    <div class="login-menu dropdown">
-                        <button class="dropdown-toggle d-none d-md-flex align-items-center" data-bs-toggle="dropdown">
-                            <font-awesome-icon icon="bars" />
+                    <!-- Right side -->
+                    <div class="col-2 col-md-5 d-flex col-xl-4 justify-content-end gap-2">
 
-                            <div v-if="loading" class="user ms-2">
-                                <div class="spinner-border" role="status" style="width: 15px; height: 15px;">
-                                </div>
-                            </div>
+                        <!-- Actions -->
+                        <div class="d-none d-md-flex">
+                            <!-- Open BnB Button -->
+                            <a href="http://127.0.0.1:8000/admin/apartments/create" class="button-light">Apri un Boolbnb</a>
 
-                            <div v-else-if="user.length && !loading" class="user ms-2">
-                                <span id="admin-name">{{ getFirstLetter(user[0]['name']) }}</span>
-                            </div>
+                            <!-- Globe Button -->
+                            <button class="button-light"><font-awesome-icon icon="globe" /></button>
+                        </div>
 
-                            <div v-else class="user ms-2">
-                                <font-awesome-icon icon="user" />
-                            </div>
-
-                        </button>
-
-                        <button class="dropdown-toggle d-flex d-md-none align-items-center" data-bs-toggle="dropdown">
-                            <div class="user">
-                                <div v-if="loading" class="spinner-border" role="status" style="width: 15px; height: 15px;">
-                                </div>
-
-                                <span v-else-if="user.length && !loading" id="admin-name">{{ getFirstLetter(user[0]['name'])
-                                }}</span>
-
-                                <font-awesome-icon v-else icon="user" />
-                            </div>
-                        </button>
-
-                        <ul v-if="user.length" class="dropdown-menu">
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments">I miei
-                                    Boolbnb</a>
-                            </li>
-                            <li><a class="dropdown-item " href="http://127.0.0.1:8000/admin">Il mio Profilo</a></li>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/login">Messaggi</a></li>
-                            <li><a class="dropdown-item disabled" href="#">Notifiche</a></li>
-                            <hr>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments/create">Apri un
-                                    Boolbnb</a>
-                            </li>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/profile">Account</a></li>
-                            <hr>
-                            <li>
-                                <RouterLink class="dropdown-item" :to="{ name: 'home' }">Torna alla Home</RouterLink>
-                            </li>
-                        </ul>
-
-                        <ul v-else class="dropdown-menu">
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/login"><b>Accedi</b></a></li>
-                            <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">Registrati</a></li>
-                            <li>
-                                <RouterLink class="dropdown-item" :to="{ name: 'home' }">Torna alla Home</RouterLink>
-                            </li>
-                        </ul>
+                        <!-- Login Dropdown -->
+                        <LoginMenu />
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Bottom Header -->
+        <div v-if="$route.name === 'search'">
+            <AppNavbar />
+        </div>
+
     </header>
 </template>
 
@@ -230,8 +182,11 @@ export default {
 
 //__________________ HEADER
 header {
-    border-bottom: 1px solid $light-grey;
     background-color: white;
+
+    >div:first-child {
+        border-bottom: 1px solid $light-grey;
+    }
 
     .row {
         @include flex($wrap: nowrap);
@@ -243,9 +198,7 @@ header {
         height: 48px
     }
 
-    .dropdown-toggle:after {
-        display: none;
-    }
+
 }
 
 // _____________ Left side
@@ -349,39 +302,5 @@ li:hover {
     padding: 12px;
     color: white;
     background-color: $brand-color;
-}
-
-//_____________ Right side
-.login-menu {
-    @include flex;
-}
-
-.user {
-    @include circle(40px);
-    @include flex;
-    color: white;
-    background-color: black;
-}
-
-ul.dropdown-menu.show {
-    @include font();
-}
-
-@media (min-width: 768px) {
-    .login-menu {
-        padding: 0 6px 0 10px;
-        border: 1px solid $light-grey;
-        border-radius: 40px;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
-        transition: box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1);
-
-        &:hover {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-        }
-    }
-
-    .user {
-        @include circle(30px);
-    }
 }
 </style>
