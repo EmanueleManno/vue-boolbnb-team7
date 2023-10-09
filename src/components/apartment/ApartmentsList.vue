@@ -2,7 +2,8 @@
 import ApartmentCard from './ApartmentCard.vue';
 export default {
     props: {
-        apartments: Array
+        apartments: Array,
+        title: String
     },
     components: { ApartmentCard }
 }
@@ -10,6 +11,9 @@ export default {
 
 <template>
     <div class="container">
+
+        <h2 v-if="title" class="mb-3">{{ title }}</h2>
+
         <div v-if="apartments.length" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
             <div v-for="apartment in apartments" :key="apartment.id" class="col">
                 <!--Card-->
