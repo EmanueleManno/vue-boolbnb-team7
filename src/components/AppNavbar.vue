@@ -5,20 +5,33 @@ const endpoint = 'http://localhost:8000/api/categories';
 
 
 export default {
-    data: () => ({ categories: [], store: store }),
+
+    data: () => ({
+        categories: [],
+        store: store
+    }),
+
     methods: {
         fetchCategories() {
             axios.get(endpoint).then(res => { this.categories = res.data })
+        },
+
+        setQueryParams(category_id) {
+            return {
+                address: this.$route?.query.address,
+                lat: this.$route?.query.lat,
+                lon: this.$route?.query.lon,
+                category: category_id,
+                rooms: this.$route?.query.rooms,
+                beds: this.$route?.query.beds,
+                radius: this.$route?.query.radius,
+                'services[]': this.$route?.query['services[]'],
+            };
         }
     },
+
     created() {
         this.fetchCategories();
-    },
-    computed: {
-        filterNumber() {
-
-            return
-        }
     }
 }
 </script>
@@ -31,7 +44,7 @@ export default {
                 <!-- Categories -->
                 <ul class="col-10">
                     <li v-for="category in categories" :key="category.id">
-                        <RouterLink :to="{ name: 'search' }" class="category-link">
+                        <RouterLink :to="{ name: 'search', query: setQueryParams(category.id) }" class="category-link">
                             <img :src="`src/assets/img/category/${category.img}`" :alt="category.name">
                             <div>{{ category.name }}</div>
                         </RouterLink>
