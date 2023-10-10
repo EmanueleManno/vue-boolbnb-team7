@@ -44,7 +44,8 @@ export default {
                 <!-- Categories -->
                 <ul class="col-10">
                     <li v-for="category in categories" :key="category.id">
-                        <RouterLink :to="{ name: 'search', query: setQueryParams(category.id) }" class="category-link">
+                        <RouterLink :to="{ name: 'search', query: setQueryParams(category.id) }" class="category-link"
+                            :class="{ 'active': $route.query?.category == category.id }">
                             <img :src="`src/assets/img/category/${category.img}`" :alt="category.name">
                             <div>{{ category.name }}</div>
                         </RouterLink>
@@ -91,6 +92,10 @@ export default {
         gap: 15px;
     }
 
+    li {
+        height: 100%;
+    }
+
     .category-link {
         height: 100%;
         padding: 0 10px;
@@ -111,7 +116,8 @@ export default {
             filter: invert(40%) sepia(55%) saturate(0%) hue-rotate(206deg) brightness(113%) contrast(83%);
         }
 
-        &:hover {
+        &:hover,
+        &.active {
             border-bottom: 3px solid grey;
             color: black;
 
