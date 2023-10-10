@@ -4,7 +4,10 @@ export default {
         apartment: Object
     },
     methods: {
-        mainService() {
+        /**
+        * Get main searched services
+        */
+        mainServices() {
             const services = this.apartment.services.sort((a, b) => {
                 const firstService = this.filteredServiceIds.includes(a.id.toString()) ? 1 : 0;
                 const secondService = this.filteredServiceIds.includes(b.id.toString()) ? 1 : 0;
@@ -78,7 +81,7 @@ export default {
                     Servizi principali
                     <ul>
                         <!-- :class="{ 'order-1': !filteredServiceIds.includes(service.id.toString()) }" -->
-                        <li v-for="service in mainService()" :key="service.id">
+                        <li v-for="service in mainServices()" :key="service.id">
                             <div class="service-icon"
                                 :class="{ 'selected': filteredServiceIds.includes(service.id.toString()) }"
                                 :title="service.name">
