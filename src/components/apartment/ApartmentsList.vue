@@ -21,7 +21,7 @@ export default {
                 <ApartmentCard :apartment="apartment" />
             </div>
         </div>
-        <h4 v-else class="text-center mt-5">Non ci sono appartamenti.</h4>
+        <h4 v-else class="text-center mt-5">Nessun risultato</h4>
     </div>
 </template>
 

@@ -3,6 +3,16 @@ export default {
     props: {
         apartment: Object
     },
+    methods: {
+        mainService() {
+            const services = this.apartment.services.sort((a, b) => {
+                const firstService = this.filteredServiceIds.includes(a.id.toString()) ? 1 : 0;
+                const secondService = this.filteredServiceIds.includes(b.id.toString()) ? 1 : 0;
+                return secondService - firstService
+            });
+            return services.slice(0, 4);
+        }
+    },
     computed: {
 
         /**
@@ -54,28 +64,32 @@ export default {
                 <h6>{{ apartment.title }}</h6>
 
                 <!-- Address -->
-                <div class="address">
+                <div>
                     {{ apartment.address }}
                 </div>
 
                 <!-- Distance -->
                 <div v-if="apartment.distance !== undefined">
-                    <font-awesome-icon :icon="['fas', 'location-dot']" class="me-1" />
-                    {{ distance }} dal centro
+                    Distanza dal centro {{ distance }} <font-awesome-icon :icon="['fas', 'location-dot']" class="me-1" />
                 </div>
 
                 <!-- Services -->
-                <ul v-if="apartment.distance !== undefined" class="d-flex flex-wrap gap-1">
-                    <li v-for="service in apartment.services" :key="service.id">
-                        <div class="service-icon"
-                            :class="{ 'selected': filteredServiceIds.includes(service.id.toString()) }"
-                            :title="service.name">
-                            <img :src="`http://127.0.0.1:8000/img/service/${service.icon}`" :alt="service.name">
-                        </div>
-                    </li>
-                </ul>
+                <div v-if="apartment.distance !== undefined" class="services-icon">
+                    Servizi principali
+                    <ul>
+                        <!-- :class="{ 'order-1': !filteredServiceIds.includes(service.id.toString()) }" -->
+                        <li v-for="service in mainService()" :key="service.id">
+                            <div class="service-icon"
+                                :class="{ 'selected': filteredServiceIds.includes(service.id.toString()) }"
+                                :title="service.name">
+                                <img :src="`http://127.0.0.1:8000/img/service/${service.icon}`" :alt="service.name">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-                <div><b>{{ apartment.price }}€</b> a notte</div>
+                <!-- Price -->
+                <div class="price"><b>{{ apartment.price }}€</b> a notte</div>
             </div>
 
         </RouterLink>
@@ -123,8 +137,17 @@ export default {
 
 .card-content {
     @include flex(center, start, column, $gap: 7px);
-
+    color: #717171;
+    font-size: 17px;
+    font-weight: 300;
     padding: 10px 0;
+    overflow: hidden;
+
+    h6,
+    .price {
+        font-size: 16px;
+        color: black
+    }
 
     .service-icon {
         @include square(20px);
@@ -134,26 +157,36 @@ export default {
             @include max-size;
             object-fit: contain;
             filter: contrast(0.1);
+            display: block;
+
         }
 
         &.selected {
             @include square(25px);
+            padding: 2px;
 
-            border: 1px solid $brand-color;
+            // border: 1px solid $brand-color;
+            background-color: #000;
             border-radius: 0.25rem;
 
             img {
-                filter: contrast(1);
+                // filter: contrast(1);
+                filter: invert(100%) sepia(0%) saturate(19%) hue-rotate(285deg) brightness(105%) contrast(104%);
             }
         }
     }
 }
 
-// Apartment address
-.address {
-    color: #717171;
-    font-size: 17px;
-    font-weight: 300;
+.services-icon {
+    @include flex(start, $wrap: nowrap, $gap: 3px);
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    ul {
+        @include flex($gap: 5px);
+    }
 }
 
 

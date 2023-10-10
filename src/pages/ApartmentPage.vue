@@ -34,7 +34,7 @@ export default {
         },
         // Get apartment details
         getApartment() {
-            axios.get(apartment_endpoint + this.$route.params.id).then(res => { this.apartment = res.data })
+            axios.get(apartment_endpoint + this.$route.params.id).then(res => { this.apartment = res.data }).catch(error => { console.error(error) }).then(() => { this.isLoading = false; });
         },
         // Send a message to the host
         sendMessage() {
@@ -138,7 +138,6 @@ export default {
         this.fetchServices();
     },
     mounted() {
-        this.isLoading = false;
         setTimeout(() => {
             this.getMap();
         }, 1000);
@@ -160,8 +159,8 @@ export default {
                     <div class="d-flex align-items-center justify-content-between">
                         <h2>{{ apartment.title }}</h2>
                         <div class="circle-button">
-                            <RouterLink :to="{ name: 'home' }"><font-awesome-icon :icon="['fas', 'chevron-left']" />
-                            </RouterLink>
+                            <button @click="$router.back()"><font-awesome-icon :icon="['fas', 'chevron-left']" />
+                            </button>
                         </div>
                     </div>
                 </div>
