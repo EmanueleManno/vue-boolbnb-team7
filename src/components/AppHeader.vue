@@ -36,6 +36,7 @@ export default {
                 address,
                 lat,
                 lon,
+                category: this.$route?.query.category,
                 rooms: this.$route?.query.rooms,
                 beds: this.$route?.query.beds,
                 radius: this.$route?.query.radius,
@@ -247,6 +248,7 @@ header {
     left: 0;
     padding: 20px;
     box-shadow: 0 0 8px 4px rgba($color: #000, $alpha: 0.1);
+    z-index: 1;
 
     ul {
         @include flex(space-between, stretch, column);
