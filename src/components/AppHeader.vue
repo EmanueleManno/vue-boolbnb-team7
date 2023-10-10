@@ -135,6 +135,7 @@ export default {
                         <!-- Address Modal -->
                         <div class="filter-modal" :class="{ 'hide': !store.show }">
                             <ul>
+                                <li v-if="!locations.length" class="p-0">Continua a scrivere...</li>
                                 <li v-for="location in this.locations"
                                     @click="selectAddress(`${location.address.freeformAddress} ${location.address.countrySubdivision}`, location.address.freeformAddress, location.position.lat, location.position.lon, $router)">
 
@@ -239,19 +240,18 @@ header {
 
 // Address Modal
 .filter-modal {
+    top: 100%;
     width: 100%;
-    height: 300px;
     background-color: white;
     border-radius: 10px;
     position: absolute;
-    bottom: -300px;
     left: 0;
     padding: 20px;
     box-shadow: 0 0 8px 4px rgba($color: #000, $alpha: 0.1);
     z-index: 1;
 
     ul {
-        @include flex(space-between, stretch, column);
+        @include flex(space-between, stretch, column, $gap: 7px);
         height: 100%;
     }
 }
