@@ -224,14 +224,14 @@ export default {
                     <div :id="getServiceClass()">
                         <h3 class="mb-3">Cosa troverai</h3>
                         <div>
-                            <ul class="service-list">
+                            <ul class="service-list onPage">
                                 <li v-for="service in apartment.services">
                                     <div><img :src="`http://127.0.0.1:8000/img/service/${service.icon}`"
                                             :alt="service.name"></div>
                                     <span>{{ service.name }}</span>
                                 </li>
                             </ul>
-                            <div class="services">
+                            <div class="service-all">
                                 <h2>Scopri tutti i servizi</h2>
                                 <div>
                                     <!-- Modal Button -->
@@ -259,14 +259,16 @@ export default {
                                                     <span>{{ service.name }}</span>
                                                 </li>
                                             </ul>
-                                            <h3 class="mt-5 mb-3">Non incluso</h3>
-                                            <ul class="service-list modal-services">
-                                                <li v-for="service in serviceNotAvailable()">
-                                                    <div><img :src="`http://127.0.0.1:8000/img/service/${service.icon}`"
-                                                            :alt="service.name"></div>
-                                                    <span class="text-decoration-line-through">{{ service.name }}</span>
-                                                </li>
-                                            </ul>
+                                            <div v-if="serviceNotAvailable().length">
+                                                <h3 class="mt-5 mb-3">Non incluso</h3>
+                                                <ul class="service-list modal-services">
+                                                    <li v-for="service in serviceNotAvailable()">
+                                                        <div><img :src="`http://127.0.0.1:8000/img/service/${service.icon}`"
+                                                                :alt="service.name"></div>
+                                                        <span class="text-decoration-line-through">{{ service.name }}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -435,10 +437,11 @@ ul {
     background-color: black;
 }
 
-// Services
+// _____________SERVICES
+// LEFT PART
+// Service list generics
 .service-list {
     @include flex(stretch, stretch, column, wrap, 10px);
-    max-height: 360px;
     flex-grow: 1;
 
     li {
@@ -461,32 +464,26 @@ ul {
     }
 }
 
-.service-list.modal-services {
-    @include flex(stretch, stretch, column, wrap, 20px);
-    max-height: 400px;
+// Service list on apartment page
+.service-list.onPage {
+    max-height: 270px;
+    overflow: hidden;
+    flex-wrap: nowrap;
+}
 
-    li div {
-        @include square(30px);
+// RIGHT PART
+.service-all {
+    @include flex(center, center, column, $gap: 10px);
+    padding: 20px 0;
+
+    h2 {
+        display: none;
     }
 }
 
-#services-large .service-list {
-    max-height: 800px;
-}
-
-.services-button,
-#services-large .services {
+// Button modal
+.services-button {
     display: flex;
-}
-
-.services {
-    @include flex(center, center, column, $gap: 10px);
-    padding: 20px 0;
-}
-
-#services-medium .services h2,
-#services-large .services h2 {
-    display: none;
 }
 
 #services-small>div,
@@ -494,6 +491,15 @@ ul {
 #services-large>div {
     display: flex;
     flex-direction: column;
+}
+
+// Service list on modal
+.service-list.modal-services {
+    @include flex(center, stretch, column, wrap, 10px);
+
+    li div {
+        @include square(30px);
+    }
 }
 
 // Map
@@ -536,19 +542,61 @@ ul {
     padding: 8px 5px;
 }
 
-// MEDIA QUERY
+/////////////////
+// MEDIA QUERY //
+/////////////////
+
 @media (min-width: 576px) {
-    #services-small .services {
-        flex-basis: 50%;
-        padding: 20px;
+    .service-list.onPage {
+        flex-wrap: wrap;
     }
 
-    #services-large .service-list {
-        max-height: 400px;
+    #services-large .service-list.onPage {
+        gap: 5px;
+
+        li {
+            width: calc(50% - 7px / 2);
+        }
+    }
+
+    .service-all {
+        flex-basis: 50%;
     }
 }
 
 @media (min-width: 768px) {
+
+    #services-small,
+    #services-medium {
+        flex-basis: 45%;
+
+        &>div {
+            flex-direction: row;
+        }
+
+        h2 {
+            display: flex;
+        }
+    }
+
+    #services-large .service-list.onPage {
+        li {
+            width: 32%
+        }
+    }
+
+    .service-list.onPage {
+        gap: 7px;
+    }
+
+    .service-list.modal-services {
+        @include flex(start, center, row, wrap, 10px);
+
+        li {
+            flex: 0 0 calc(50% - 5px);
+        }
+    }
+
     .image-container {
         @include max-size($max: true, $max-width: 696px, $max-height: 400px);
     }
@@ -556,23 +604,21 @@ ul {
     .no-image {
         margin: 0 20px;
     }
-
-    #services-medium .services {
-        flex-basis: 50%;
-        padding: 20px;
-
-        h2 {
-            display: flex;
-        }
-    }
-
-    #services-small>div,
-    #services-medium>div {
-        flex-direction: row;
-    }
 }
 
 @media (min-width: 992px) {
+    .service-list.onPage {
+        gap: 10px;
+    }
+
+    #services-large .service-list.onPage {
+        gap: 7px;
+    }
+
+    .service-all {
+        flex-basis: 50%;
+    }
+
     .slider {
         gap: 20px;
     }
