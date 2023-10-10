@@ -34,7 +34,10 @@ export default {
         },
         // Get apartment details
         getApartment() {
-            axios.get(apartment_endpoint + this.$route.params.id).then(res => { this.apartment = res.data }).catch(error => { console.error(error) }).then(() => { this.isLoading = false; });
+            axios.get(apartment_endpoint + this.$route.params.id)
+                .then(res => { this.apartment = res.data })
+                .catch(error => { this.$router.push({ name: 'not-found', query: { error: 404, message: 'La pagina non è stata trovata.' } }) })
+                .then(() => { this.isLoading = false; });
         },
         // Send a message to the host
         sendMessage() {
