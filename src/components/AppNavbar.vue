@@ -31,8 +31,10 @@ export default {
                 <!-- Categories -->
                 <ul class="col-10">
                     <li v-for="category in categories" :key="category.id">
-                        <img :src="`src/assets/img/category/${category.img}`" :alt="category.name">
-                        <div>{{ category.name }}</div>
+                        <RouterLink :to="{ name: 'search' }" class="category-link">
+                            <img :src="`src/assets/img/category/${category.img}`" :alt="category.name">
+                            <div>{{ category.name }}</div>
+                        </RouterLink>
                     </li>
                 </ul>
 
@@ -76,18 +78,21 @@ export default {
         gap: 15px;
     }
 
-    li {
-        @include flex($direction: column);
+    .category-link {
         height: 100%;
         padding: 0 10px;
+
+        @include flex($direction: column);
+        gap: 5px;
+        color: grey;
         font-size: 12px;
         border-bottom: 3px solid transparent;
-        color: grey;
         font-weight: 500;
-        transition: all 0.5s;
-        cursor: pointer;
-        gap: 5px;
         text-wrap: nowrap;
+
+        transition: all 0.5s;
+
+
 
         img {
             filter: invert(40%) sepia(55%) saturate(0%) hue-rotate(206deg) brightness(113%) contrast(83%);
