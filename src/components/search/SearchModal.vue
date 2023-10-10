@@ -54,6 +54,7 @@ export default {
                 address: this.$route?.query.address,
                 lat: this.$route?.query.lat,
                 lon: this.$route?.query.lon,
+                category: this.$route?.query.category,
                 rooms: this.filters.rooms,
                 beds: this.filters.beds,
                 radius: this.radius,
