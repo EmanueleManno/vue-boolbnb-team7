@@ -530,13 +530,6 @@ ul {
     color: $brand-color;
 }
 
-// Info form message
-.button-info {
-    @include circle(15px);
-    @include flex;
-    border: 2px solid black;
-}
-
 .dropdown-menu {
     @include font;
     padding: 8px 5px;

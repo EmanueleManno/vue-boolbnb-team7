@@ -71,7 +71,8 @@ export default {
             </div>
 
             <!-- Apartments -->
-            <ApartmentsList v-else :apartments="apartments" />
+            <ApartmentsList v-else :apartments="apartments" title="Risultati in questa località"
+                infoMessage="Vengono visualizzati per primi i boolbnb consigliati dal nostro team" />
         </div>
     </main>
 

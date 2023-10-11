@@ -85,6 +85,12 @@ button {
     }
 }
 
+.button-info {
+    @include circle(15px);
+    @include flex;
+    border: 2px solid black;
+}
+
 //___
 hr {
     margin: 0;

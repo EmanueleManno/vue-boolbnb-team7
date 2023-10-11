@@ -36,10 +36,12 @@ export default {
     <main>
 
         <!-- Promoted Appartments -->
-        <ApartmentsList v-if="!isLoading" :apartments="apartmentsPromoted" title="In Evidenza" />
+        <ApartmentsList v-if="!isLoading && apartmentsPromoted.length" :apartments="apartmentsPromoted"
+            infoMessage="I boolbnb in evidenza sono consigliati dal nostro team!" title="Boolbnb in evidenza" />
 
         <!-- Random Appartments -->
-        <ApartmentsList v-if="!isLoading" :apartments="apartmentsRandom" title="Altri BoolBnB" />
+        <ApartmentsList v-if="!isLoading" :apartments="apartmentsRandom" title="I nostri boolbnb"
+            infoMessage="I boolbnb vengono ordinati in modo randomico" />
     </main>
     <!-- Loader -->
     <AppLoader :is-loading="isLoading" />
