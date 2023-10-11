@@ -77,8 +77,7 @@ export default {
                     Boolbnb</a>
             </li>
             <li><a class="dropdown-item " href="http://127.0.0.1:8000/admin">Il mio Profilo</a></li>
-            <li><a class="dropdown-item" href="http://127.0.0.1:8000/login">Messaggi</a></li>
-            <li><a class="dropdown-item disabled" href="#">Notifiche</a></li>
+            <li><a class="dropdown-item disabled" href="http://127.0.0.1:8000/login">Messaggi</a></li>
             <hr>
             <li><a class="dropdown-item" href="http://127.0.0.1:8000/admin/apartments/create">Apri un
                     Boolbnb</a>

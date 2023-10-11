@@ -36,7 +36,7 @@ export default {
         getApartment() {
             axios.get(apartment_endpoint + this.$route.params.id)
                 .then(res => { this.apartment = res.data })
-                .catch(error => { this.$router.push({ name: 'not-found', query: { error: 404, message: 'La pagina non è stata trovata.' } }) })
+                .catch(error => { this.$router.push({ name: 'not-found', query: { error: 404 } }) })
                 .then(() => { this.isLoading = false; });
         },
         // Send a message to the host
