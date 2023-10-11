@@ -41,7 +41,7 @@ export default {
 
         <!-- Random Appartments -->
         <ApartmentsList v-if="!isLoading" :apartments="apartmentsRandom" title="I nostri boolbnb"
-            infoMessage="I boolbnb vengono ordinati in modo randomico" />
+            infoMessage="I boolbnb vengono mostrati in ordine casuale" />
     </main>
     <!-- Loader -->
     <AppLoader :is-loading="isLoading" />
