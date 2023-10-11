@@ -93,6 +93,7 @@ export default {
         <ul v-else class="dropdown-menu">
             <li><a class="dropdown-item" href="http://127.0.0.1:8000/login"><b>Accedi</b></a></li>
             <li><a class="dropdown-item" href="http://127.0.0.1:8000/register">Registrati</a></li>
+            <hr>
             <li>
                 <RouterLink class="dropdown-item" :to="{ name: 'home' }">Torna alla Home</RouterLink>
             </li>
