@@ -13,7 +13,8 @@ export default {
     data: () => ({
         apartments: [],
         isLoading: true,
-        errorMessage: ''
+        errorMessage: '',
+        address: ''
     }),
 
     watch: {
@@ -32,6 +33,7 @@ export default {
 
             // Get query
             const params = this.$route.query;
+            this.address = this.$route.query.address
 
 
             // Call API
@@ -71,7 +73,7 @@ export default {
             </div>
 
             <!-- Apartments -->
-            <ApartmentsList v-else :apartments="apartments" title="Risultati in questa località"
+            <ApartmentsList v-else :apartments="apartments" :title="`Risultati in questa località: ${address}`"
                 infoMessage="Vengono visualizzati per primi i boolbnb consigliati dal nostro team" />
         </div>
     </main>
