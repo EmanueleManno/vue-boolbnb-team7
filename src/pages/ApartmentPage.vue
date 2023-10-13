@@ -107,20 +107,11 @@ export default {
             const avServ = this.apartment.services;
 
             // Array with ids of available services
-            let avServId = [];
-            avServ.forEach(s => {
-                avServId.push(s.id)
-            });
+            const avServId = avServ.map(s => s.id);
 
             // Array with services not available
-            let notAv = [];
-            this.services.forEach(s => {
-                if (!avServId.includes(s.id)) {
-                    notAv.push(s);
-                }
-            });
+            return this.services.filter(s => !avServId.includes(s.id));
 
-            return notAv;
         },
         getServiceClass() {
             if (this.apartment.services.length <= 5) {
@@ -143,7 +134,7 @@ export default {
     mounted() {
         setTimeout(() => {
             this.getMap();
-        }, 1000);
+        }, 2000);
     },
     computed: {
         hasErrors() {
@@ -259,7 +250,7 @@ export default {
                                                     <span>{{ service.name }}</span>
                                                 </li>
                                             </ul>
-                                            <div v-if="serviceNotAvailable().length">
+                                            <div v-if="serviceNotAvailable()">
                                                 <h3 class="mt-5 mb-3">Non incluso</h3>
                                                 <ul class="service-list modal-services">
                                                     <li v-for="service in serviceNotAvailable()">
