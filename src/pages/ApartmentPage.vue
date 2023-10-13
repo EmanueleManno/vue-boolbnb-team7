@@ -250,7 +250,7 @@ export default {
                                                     <span>{{ service.name }}</span>
                                                 </li>
                                             </ul>
-                                            <div v-if="serviceNotAvailable()">
+                                            <div v-if="serviceNotAvailable().length">
                                                 <h3 class="mt-5 mb-3">Non incluso</h3>
                                                 <ul class="service-list modal-services">
                                                     <li v-for="service in serviceNotAvailable()">
