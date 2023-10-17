@@ -4,7 +4,8 @@ export default {
     props: {
         apartments: Array,
         title: String,
-        infoMessage: String
+        infoMessage: String,
+        cardLoader: Boolean
     },
     components: { ApartmentCard }
 }
@@ -28,6 +29,21 @@ export default {
             <div v-for="apartment in apartments" :key="apartment.id" class="col">
                 <!--Card-->
                 <ApartmentCard :apartment="apartment" />
+            </div>
+
+            <div v-if="cardLoader" v-for="card in 10" class="col">
+                <div class="card" aria-hidden="true">
+                    <div class="img-card-top card-img placeholder"></div>
+                    <div class="card-body">
+                        <h5 class="card-title placeholder-glow">
+                            <span class="placeholder col-8"></span>
+                        </h5>
+                        <p class="card-text placeholder-glow">
+                            <span class="placeholder col-7"></span>
+                            <span class="placeholder col-6"></span>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
         <h4 v-else class="text-center mt-5">Nessun risultato</h4>
@@ -57,5 +73,36 @@ h6 {
 .dropdown-menu {
     font-size: 14px;
     padding: 8px 10px;
+}
+
+// Card loader placeholder 
+.card {
+    border: none;
+    border-radius: 0;
+}
+
+.card-img {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.placeholder {
+    animation: fade 1s linear infinite alternate;
+    border-radius: 5px;
+}
+
+@keyframes fade {
+    from {
+        background-color: #878787;
+    }
+
+    to {
+        background-color: $light-grey;
+    }
+}
+
+.card-body {
+    padding: 16px 0;
 }
 </style>
