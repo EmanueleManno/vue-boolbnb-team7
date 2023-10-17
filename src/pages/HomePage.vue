@@ -25,7 +25,7 @@ export default {
                     console.error(err);
                 })
                 .then(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
         infiniteScroll() {
@@ -83,7 +83,13 @@ export default {
         <ApartmentsList v-if="!isLoading" :apartments="apartmentsRandom" title="I nostri boolbnb"
             infoMessage="I boolbnb vengono mostrati in ordine casuale" :cardLoader="cardLoader" />
 
+        <!-- Loader -->
+        <AppLoader :is-loading="isLoading" :cardLoading="true" />
     </main>
-    <!-- Loader -->
-    <AppLoader :is-loading="isLoading" />
 </template>
+
+<style>
+main {
+    position: relative;
+}
+</style>
