@@ -25,7 +25,7 @@ export default {
                     console.error(err);
                 })
                 .then(() => {
-                    // this.isLoading = false;
+                    this.isLoading = false;
                 });
         },
         infiniteScroll() {
