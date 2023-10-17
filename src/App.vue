@@ -1,15 +1,16 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
 import AppFooter from './components/AppFooter.vue';
-import {store} from './js/store.js';
+import { store } from './js/store.js';
+
 export default {
 
-  components: { AppHeader, AppFooter},
+  components: { AppHeader, AppFooter },
 
   data() {
     return {
       store: store,
-      
+
     }
   },
   methods: {
@@ -25,9 +26,9 @@ export default {
   <div @click="hide">
     <!-- Header -->
     <AppHeader />
-    
+
     <RouterView />
-    
+
     <!-- Footer -->
     <AppFooter />
 

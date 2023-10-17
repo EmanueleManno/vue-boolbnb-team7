@@ -110,8 +110,7 @@ export default {
 
 .card-img {
     position: relative;
-    @include square(calc(100vw - 24px), 15px);
-    max-width: 100%;
+    aspect-ratio: 1;
     overflow: hidden;
 
     img {
@@ -189,39 +188,6 @@ export default {
 
     ul {
         @include flex($gap: 5px);
-    }
-}
-
-
-// Media Query
-// Square images
-@media (min-width: 576px) {
-    .card-img {
-        max-height: 234px;
-    }
-}
-
-@media (min-width: 768px) {
-    .card-img {
-        max-height: 334px;
-    }
-}
-
-@media (min-width: 992px) {
-    .card-img {
-        max-height: 293px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .card-img {
-        max-height: 259px;
-    }
-}
-
-@media (min-width: 1400px) {
-    .card-img {
-        max-height: 238px;
     }
 }
 </style>
