@@ -6,15 +6,8 @@ export default {
   },
 };
 </script>
-
+<!-- Cards loader -->
 <template>
-  <div class="loader" v-if="isLoading && !cardLoading">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Caricamento...</span>
-    </div>
-  </div>
-
-
   <div class="container" v-if="isLoading && cardLoading">
     <div class="row mb-3">
       <h2 class="placeholder-glow mb-2"><span class="placeholder col-5 col-md-4 col-lg-3"></span></h2>
@@ -36,6 +29,13 @@ export default {
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Generic loader -->
+  <div class="loader" v-else-if="isLoading">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Caricamento...</span>
     </div>
   </div>
 </template>
