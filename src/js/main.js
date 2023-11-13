@@ -24,7 +24,8 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { faQuestion } from '@fortawesome/free-solid-svg-icons'
-library.add(faMagnifyingGlass, faUser, faBars, faGlobe, faSliders, faFacebook, faInstagram, faXTwitter, faFilter, faArrowDown, faChevronLeft, faLocationDot, faX, faThumbsUp, faQuestion)
+import { faAnglesUp } from '@fortawesome/free-solid-svg-icons'
+library.add(faMagnifyingGlass, faUser, faBars, faGlobe, faSliders, faFacebook, faInstagram, faXTwitter, faFilter, faArrowDown, faChevronLeft, faLocationDot, faX, faThumbsUp, faQuestion, faAnglesUp)
 
 const app = createApp(App);
 app.use(router);

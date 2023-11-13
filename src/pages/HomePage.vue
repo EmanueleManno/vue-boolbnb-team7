@@ -56,6 +56,18 @@ export default {
                     });
                 }
             }
+
+            // Button scroll-top
+            if (apartemntListTopScroll >= 200) {
+                this.$refs.topButton.classList.add('show');
+            } else {
+                this.$refs.topButton.classList.remove('show')
+            }
+
+            console.log(apartemntListTopScroll)
+        },
+        backTop() {
+            this.$refs.apartmentList.scrollTop = 0;
         }
 
     },
@@ -85,11 +97,32 @@ export default {
 
         <!-- Loader -->
         <AppLoader :is-loading="isLoading" :cardLoading="true" />
+
+        <!-- Back-top-button -->
+        <button ref="topButton" class="back-top circle-button" @click="backTop()">
+            <font-awesome-icon icon="angles-up" />
+        </button>
     </main>
 </template>
 
-<style>
+<style lang="scss">
 main {
     position: relative;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+.back-top {
+    position: fixed;
+    inset: auto 11px 60px auto;
+    background-color: white;
+    scale: 0.1;
+    opacity: 0;
+    transition: all .2s linear;
+
+    &.show {
+        opacity: 1;
+        scale: 1;
+    }
 }
 </style>
